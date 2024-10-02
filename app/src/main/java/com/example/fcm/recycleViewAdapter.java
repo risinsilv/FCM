@@ -40,7 +40,7 @@ public class recycleViewAdapter extends RecyclerView.Adapter<recycleViewAdapter.
         return recycleList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder{
         ImageView imageView;
         TextView textView;
         public ViewHolder(@NonNull View itemView) {

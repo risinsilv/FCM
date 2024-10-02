@@ -15,16 +15,36 @@ import java.util.ArrayList;
 
 public class recycleView extends AppCompatActivity {
     ArrayList<recycleViewData> recycleList;
+    ArrayList<recycleViewDateData> recycleListDate;
     RecyclerView recyclerView;
+    RecyclerView recyclerViewDate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_recycle_view);
 
+        recyclerViewDate = findViewById(R.id.recyclerViewDate);
+        recyclerViewDate.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewDate.setLayoutManager(layoutManager);
+
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+
+        recycleListDate = new ArrayList<recycleViewDateData>();
+        recycleListDate.add(new recycleViewDateData(2024,"Oct",2));
+        recycleListDate.add(new recycleViewDateData(2024,"Oct",3));
+        recycleListDate.add(new recycleViewDateData(2024,"Oct",4));
+        recycleListDate.add(new recycleViewDateData(2024,"Oct",5));
+        recycleListDate.add(new recycleViewDateData(2024,"Oct",6));
+        recycleListDate.add(new recycleViewDateData(2024,"Oct",7));
+        recycleListDate.add(new recycleViewDateData(2024,"Oct",8));
+        recycleListDate.add(new recycleViewDateData(2024,"Oct",9));
+        recycleViewDateAdapter recycleViewDateAdapter = new recycleViewDateAdapter(recycleListDate,this);
+        recyclerViewDate.setAdapter(recycleViewDateAdapter);
+
 
         recycleList = new ArrayList<recycleViewData>();
         recycleList.add(new recycleViewData(R.drawable.test2,"Test 1"));

@@ -14,10 +14,16 @@ import java.util.ArrayList;
 public class recycleViewDateAdapter extends RecyclerView.Adapter<recycleViewDateAdapter.ViewHolder>{
     ArrayList<recycleViewDateData> recyclelist;
     Context context;
+    OnDateClickListener onDateClickListener;
 
-    public recycleViewDateAdapter(ArrayList<recycleViewDateData> recyclelist, Context context) {
+    public interface OnDateClickListener {
+        void onDateClick(recycleViewDateData dateData);
+    }
+
+    public recycleViewDateAdapter(ArrayList<recycleViewDateData> recyclelist, Context context, OnDateClickListener listener) {
         this.recyclelist = recyclelist;
         this.context = context;
+        this.onDateClickListener = listener;
     }
 
     @NonNull
@@ -30,9 +36,14 @@ public class recycleViewDateAdapter extends RecyclerView.Adapter<recycleViewDate
     @Override
     public void onBindViewHolder(@NonNull recycleViewDateAdapter.ViewHolder holder, int position)
     {
-        holder.year.setText(String.valueOf(recyclelist.get(position).getYear()));
-        holder.month.setText(recyclelist.get(position).getMonth());
-        holder.day.setText(String.valueOf(recyclelist.get(position).getDay()));
+        recycleViewDateData dateData = recyclelist.get(position);
+        holder.year.setText(String.valueOf(dateData.getYear()));
+        holder.month.setText(dateData.getMonth());
+        holder.day.setText(String.valueOf(dateData.getDay()));
+
+        holder.itemView.setOnClickListener(v -> {
+            onDateClickListener.onDateClick(dateData);
+        });
     }
 
     @Override

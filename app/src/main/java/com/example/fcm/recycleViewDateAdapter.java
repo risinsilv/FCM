@@ -1,12 +1,15 @@
 package com.example.fcm;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -48,7 +51,9 @@ public class recycleViewDateAdapter extends RecyclerView.Adapter<recycleViewDate
 
         holder.itemView.setOnClickListener(v -> {
             onDateClickListener.onDateClick(dateData);
+
         });
+
     }
 
     @Override
@@ -60,11 +65,13 @@ public class recycleViewDateAdapter extends RecyclerView.Adapter<recycleViewDate
         TextView year;
         TextView month;
         TextView day;
+        CardView cardView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             year = itemView.findViewById(R.id.textView4);
             month = itemView.findViewById(R.id.textView5);
             day = itemView.findViewById(R.id.textView6);
+            cardView = itemView.findViewById(R.id.cardview);
 
         }
     }

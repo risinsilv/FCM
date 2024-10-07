@@ -109,23 +109,23 @@ public class MealDetailActivity extends AppCompatActivity {
     }
 
     private void saveMeal() {
-//        String mealName = editTextMealName.getText().toString();
-        double mealWeight = Double.parseDouble(weightEditText.getText().toString());
-//        String mealType = spinnerMealType.getSelectedItem().toString();
-//        String date = getIntent().getStringExtra("selectedDate");
-//        Meal meal = new Meal();
-//        meal.setDate(date);
-//        meal.setMealName(mealName);
-//        meal.setImage(R.drawable.test2);
-//        meal.setMealType(mealType);
-//        meal.setPortionSize(mealWeight);
-//        mealDAO.insert(meal);
+       String mealName = editTextMealName.getText().toString();
+     double mealWeight = Double.parseDouble(weightEditText.getText().toString());
+       String mealType = spinnerMealType.getSelectedItem().toString();
+       String date = getIntent().getStringExtra("selectedDate");
+       Meal meal = new Meal();
+       meal.setDate(date);
+       meal.setMealName(mealName);
+       meal.setImage(R.drawable.test2);
+       meal.setMealType(mealType);
+       meal.setPortionSize(mealWeight);
+       mealDAO.insert(meal);
 
-        String mealNamep = editTextMealName.getText().toString();
-        String mealTypep = spinnerMealType.getSelectedItem().toString();
+        //String mealNamep = editTextMealName.getText().toString();
+        //String mealTypep = spinnerMealType.getSelectedItem().toString();
 
         // Validate the meal name
-        if (mealNamep.isEmpty()) {
+        if (mealName.isEmpty()) {
             Toast.makeText(this, "Please enter a meal name", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -142,13 +142,13 @@ public class MealDetailActivity extends AppCompatActivity {
 //            return;
 //        }
 
-        String mealDate = getIntent().getStringExtra("mealDate"); // Get date from intent or use the current date
+       ; // Get date from intent or use the current date
 
         // Create an Intent to pass the meal details to MealSummaryActivity
         Intent intentp = new Intent(MealDetailActivity.this, MealSummaryActivity.class);
-        intentp.putExtra("mealName", mealNamep);
-        intentp.putExtra("mealType", mealTypep);
-        intentp.putExtra("mealDate", mealDate);
+        intentp.putExtra("mealName", mealName);
+        intentp.putExtra("mealType", mealType);
+        intentp.putExtra("mealDate", date);
 
 //        if (mealImageUri != null) {
 //            // Pass the image URI instead of Bitmap

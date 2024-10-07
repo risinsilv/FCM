@@ -43,10 +43,12 @@ public class recycleViewAdapter extends RecyclerView.Adapter<recycleViewAdapter.
 
         holder.itemView.setOnClickListener(v -> {
             // Create an intent to navigate to MealDetailActivity
-            Intent intent = new Intent(context, MealDetailActivity.class);
+            Intent intent = new Intent(context, MealSummaryActivity.class);
 
             // Optionally pass data about the clicked meal to the next activity (e.g., meal name)
             intent.putExtra("mealName", mealItem.getMealName());
+            intent.putExtra("mealType", mealItem.getMealType());
+            intent.putExtra("mealDate", mealItem.getDate());
 
             // Start the activity
             context.startActivity(intent);

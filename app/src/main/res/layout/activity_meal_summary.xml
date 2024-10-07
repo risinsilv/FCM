@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/mealImageView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="Meal Image"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/mealNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mealImageView"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
+        android:text="Meal Name"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/mealTypeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mealNameTextView"
+        android:layout_marginTop="8dp"
+        android:layout_centerHorizontal="true"
+        android:text="Meal Type"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/mealDateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mealTypeTextView"
+        android:layout_marginTop="8dp"
+        android:layout_centerHorizontal="true"
+        android:text="Meal Date"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/editButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mealDateTextView"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
+        android:text="Edit" />
+
+    <Button
+        android:id="@+id/nutritionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editButton"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
+        android:text="Show Nutrition Info" />
+
+</RelativeLayout>

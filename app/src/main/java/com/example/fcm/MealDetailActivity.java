@@ -43,7 +43,6 @@ public class MealDetailActivity extends AppCompatActivity {
         mealImageView = findViewById(R.id.mealImageView);
         Button captureButton = findViewById(R.id.captureButton);
         Button galleryButton = findViewById(R.id.galleryButton);
-        Button nutritionButton = findViewById(R.id.nutritionButton);
         mealDAO = MealDBinstance.getDataBase1(getApplicationContext()).mealDAO();
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -97,24 +96,6 @@ public class MealDetailActivity extends AppCompatActivity {
             galleryLauncher.launch(galleryIntent);
         });
 
-        nutritionButton.setOnClickListener(v -> {
-            String weightStr = weightEditText.getText().toString();
-            if (weightStr.isEmpty()) {
-                Toast.makeText(this, "Please enter weight", Toast.LENGTH_SHORT).show();
-            } else {
-                double weight = Double.parseDouble(weightStr);
-                Intent nutritionIntent = new Intent(MealDetailActivity.this, NutritionActivity.class);
-                nutritionIntent.putExtra("mealName", mealName);
-                nutritionIntent.putExtra("weight", weight);
-                nutritionIntent.putExtra("protein", 28);   // The actual consumed protein value
-                nutritionIntent.putExtra("proteinGoal", 60); // The total protein goal
-                nutritionIntent.putExtra("carbs", 100);     // The actual consumed carbs value
-                nutritionIntent.putExtra("carbsGoal", 225); // The total carbs goal
-                nutritionIntent.putExtra("fat", 83);        // The actual consumed fat value
-                nutritionIntent.putExtra("fatGoal", 77);    // The total fat goal
-                startActivity(nutritionIntent);
-            }
-        });
 
         findViewById(R.id.back_button).setOnClickListener(v -> finish());
     }
@@ -128,29 +109,57 @@ public class MealDetailActivity extends AppCompatActivity {
     }
 
     private void saveMeal() {
-        String mealName = editTextMealName.getText().toString();
+//        String mealName = editTextMealName.getText().toString();
         double mealWeight = Double.parseDouble(weightEditText.getText().toString());
-        String mealType = spinnerMealType.getSelectedItem().toString();
-        String date = getIntent().getStringExtra("selectedDate");
-        Meal meal = new Meal();
-        meal.setDate(date);
-        meal.setMealName(mealName);
-        meal.setImage(R.drawable.test2);
-        meal.setMealType(mealType);
-        meal.setPortionSize(mealWeight);
-        mealDAO.insert(meal);
+//        String mealType = spinnerMealType.getSelectedItem().toString();
+//        String date = getIntent().getStringExtra("selectedDate");
+//        Meal meal = new Meal();
+//        meal.setDate(date);
+//        meal.setMealName(mealName);
+//        meal.setImage(R.drawable.test2);
+//        meal.setMealType(mealType);
+//        meal.setPortionSize(mealWeight);
+//        mealDAO.insert(meal);
 
+        String mealNamep = editTextMealName.getText().toString();
+        String mealTypep = spinnerMealType.getSelectedItem().toString();
 
+        // Validate the meal name
+        if (mealNamep.isEmpty()) {
+            Toast.makeText(this, "Please enter a meal name", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        //if (mealName.isEmpty() ||  || (mealImageBitmap == null && mealImageUri == null)) {
-            //Toast.makeText(this, "Please fill all fields and select an image", Toast.LENGTH_SHORT).show();
-           // return;
-        //}
+        // Validate weight
+        if (weightEditText.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Please enter the weight of the meal", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        // FUCKING ADD THESE MOTHERFUCKERS TO THE DATABASE WITH DATES AND THE FUCK ALL YA DUMB CUNT
+        // Validate image
+//        if (mealImageUri == null && mealImageBitmap == null) {
+//            Toast.makeText(this, "Please capture or select a meal image", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
 
+        String mealDate = getIntent().getStringExtra("mealDate"); // Get date from intent or use the current date
 
-        Toast.makeText(this, "Meal saved: " + mealName + " (" + mealWeight + "g) - " + mealType, Toast.LENGTH_SHORT).show();
-        finish(); // Optionally, close this activity and return to the previous one
+        // Create an Intent to pass the meal details to MealSummaryActivity
+        Intent intentp = new Intent(MealDetailActivity.this, MealSummaryActivity.class);
+        intentp.putExtra("mealName", mealNamep);
+        intentp.putExtra("mealType", mealTypep);
+        intentp.putExtra("mealDate", mealDate);
+
+//        if (mealImageUri != null) {
+//            // Pass the image URI instead of Bitmap
+//            intentp.putExtra("mealImageUri", mealImageUri.toString());
+//        } else if (mealImageBitmap != null) {
+//            // If using a small image bitmap, pass as Parcelable (Be cautious with large images)
+//            intentp.putExtra("mealImageBitmap", mealImageBitmap);
+//        }
+
+        startActivity(intentp);
+
+        //Toast.makeText(this, "Meal saved: " + mealName + " (" + mealWeight + "g) - " + mealType, Toast.LENGTH_SHORT).show();
     }
 }

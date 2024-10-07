@@ -75,8 +75,6 @@ public class recycleView extends AppCompatActivity {
 
         List<Meal> temp = mealDAO.getMealsByDate("10-Sep-2024");
         recycleList = new ArrayList<>(temp);
-        recycleList.clear();
-        recycleViewAdapter.notifyDataSetChanged();
         recycleViewAdapter = new recycleViewAdapter(recycleList, this, new recycleViewAdapter.OnMealClickListener() {
             @Override
             public void onMealClick(Meal mealItem, int position) {

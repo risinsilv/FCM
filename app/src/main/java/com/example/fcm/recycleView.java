@@ -1,6 +1,8 @@
 package com.example.fcm;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,12 +37,6 @@ public class recycleView extends AppCompatActivity {
 
         dailyIntakeDAO = DailyIntakeDBinstance.getDataBase(getApplicationContext()).dailyIntakeDAO();
         mealDAO = MealDBinstance.getDataBase1(getApplicationContext()).mealDAO();
-        //DailyIntake dailyIntake = new DailyIntake();
-        //dailyIntake.setDate("13-Sep-2024");
-
-
-
-
 
         recyclerViewDate = findViewById(R.id.recyclerViewDate);
         recyclerViewDate.setHasFixedSize(true);
@@ -48,25 +45,45 @@ public class recycleView extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
+        Calendar calendar = Calendar.getInstance();
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+        List<String> dates = DateUtils.getDatesOfMonth(month, year);
 
-        List<DailyIntake> dailyIntakes = dailyIntakeDAO.getAlldates();//Converting list an array list
-        recycleListDate = new ArrayList<>(dailyIntakes);
+        // Populate the recycleListDate with DailyIntake objects
+        recycleListDate = new ArrayList<>();
+        for (String date : dates) {
+            DailyIntake dailyIntake = new DailyIntake();
+            dailyIntake.setDate(date);
+            recycleListDate.add(dailyIntake);
+        }
 
-
+        // Set up the date adapter
         recycleViewDateAdapter dateAdapter = new recycleViewDateAdapter(recycleListDate, this, new recycleViewDateAdapter.OnDateClickListener() {
             @Override
             public void onDateClick(DailyIntake dateData) {
                 updateMainRecyclerViewData(dateData);
-                String temp = dateData.getDate();
-                Toast toast = Toast.makeText(recycleView.this,
-                        temp, Toast.LENGTH_SHORT);
-                toast.show();
-
+                selectedDateData = dateData; // Set selected date data
+                Toast.makeText(recycleView.this, dateData.getDate(), Toast.LENGTH_SHORT).show();
             }
-
         });
+
+
+        recyclerViewDate.setAdapter(dateAdapter);
+
+        List<Meal> temp = mealDAO.getMealsByDate("10-Sep-2024");
+        recycleList = new ArrayList<>(temp);
+
+        recycleViewAdapter = new recycleViewAdapter(recycleList, this, new recycleViewAdapter.OnMealClickListener() {
+            @Override
+            public void onMealClick(Meal mealItem, int position) {
+                // You can add functionality to handle meal item clicks here if needed.
+            }
+        });
+        recyclerView.setAdapter(recycleViewAdapter);
+
 
         recyclerViewDate.setAdapter(dateAdapter);
         // Meal meal = new Meal();
@@ -76,16 +93,6 @@ public class recycleView extends AppCompatActivity {
         // mealDAO.insert(meal);
 
 
-
-        List<Meal> temp = mealDAO.getMealsByDate("10-Sep-2024");
-        recycleList = new ArrayList<>(temp);
-
-        recycleViewAdapter = new recycleViewAdapter(recycleList, this, new recycleViewAdapter.OnMealClickListener() {
-            @Override
-            public void onMealClick(Meal mealItem, int position) {
-
-            }
-        });
         recyclerView.setAdapter(recycleViewAdapter);
       // Meal meal = new Meal();
       // meal.setDate("13-Sep-2024");
@@ -102,34 +109,27 @@ public class recycleView extends AppCompatActivity {
       // mealDAO.insert(meal);
 
 
-        //  Button addButton = findViewById(R.id.addButton);
-        //  addButton.setOnClickListener(v -> {
-        //      if (selectedDateData != null) {
-        //          showMealInputDialog(selectedDateData);
-        //      } else {
-        //          Toast.makeText(this, "Please select a date first", Toast.LENGTH_SHORT).show();
-        //      }
-        //  });
+        Button addButton = findViewById(R.id.addButton);
+        addButton.setOnClickListener(v -> {
+            if (selectedDateData != null) {
+                // Launch MealDetailActivity and pass the selected date data
+                Intent intent = new Intent(recycleView.this, MealDetailActivity.class);
+                intent.putExtra("selectedDate", selectedDateData.getDate()); // Passing the selected date
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Please select a date first", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         }
 
-  private void updateMainRecyclerViewData(DailyIntake dateData) {
-     List<Meal> meal = mealDAO.getMealsByDate(dateData.getDate());
+    private void updateMainRecyclerViewData(DailyIntake dateData) {
+        List<Meal> meal = mealDAO.getMealsByDate(dateData.getDate());
 
-    recycleList.clear();
-
-     //if (meal.isEmpty()) {
-
-
-     //} else {
-
-          //recycleList = new ArrayList<>(meal);
-          recycleList.addAll(new ArrayList<>(meal));
-
-     //}
-
-      recycleViewAdapter.notifyDataSetChanged();
-  }
+        recycleList.clear();
+        recycleList.addAll(new ArrayList<>(meal));
+        recycleViewAdapter.notifyDataSetChanged();
+    }
 
         // private void showMealInputDialog(recycleViewDateData dateData) {
         //     // Create a dialog

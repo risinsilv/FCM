@@ -1,6 +1,7 @@
 package com.example.fcm;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +42,14 @@ public class recycleViewAdapter extends RecyclerView.Adapter<recycleViewAdapter.
         holder.textView.setText(mealItem.getMealName());
 
         holder.itemView.setOnClickListener(v -> {
-            onMealClickListener.onMealClick(mealItem, position);
+            // Create an intent to navigate to MealDetailActivity
+            Intent intent = new Intent(context, MealDetailActivity.class);
+
+            // Optionally pass data about the clicked meal to the next activity (e.g., meal name)
+            intent.putExtra("mealName", mealItem.getMealName());
+
+            // Start the activity
+            context.startActivity(intent);
         });
     }
 

@@ -29,6 +29,7 @@ public class MealDetailActivity extends AppCompatActivity {
     private Spinner spinnerMealType;
     private ActivityResultLauncher<Intent> cameraLauncher;
     private ActivityResultLauncher<Intent> galleryLauncher;
+    MealDAO mealDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class MealDetailActivity extends AppCompatActivity {
         Button captureButton = findViewById(R.id.captureButton);
         Button galleryButton = findViewById(R.id.galleryButton);
         Button nutritionButton = findViewById(R.id.nutritionButton);
+        mealDAO = MealDBinstance.getDataBase1(getApplicationContext()).mealDAO();
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.meal_types, android.R.layout.simple_spinner_item);
@@ -127,13 +129,23 @@ public class MealDetailActivity extends AppCompatActivity {
 
     private void saveMeal() {
         String mealName = editTextMealName.getText().toString();
-        String mealWeight = weightEditText.getText().toString();
+        double mealWeight = Double.parseDouble(weightEditText.getText().toString());
         String mealType = spinnerMealType.getSelectedItem().toString();
+        String date = getIntent().getStringExtra("selectedDate");
+        Meal meal = new Meal();
+        meal.setDate(date);
+        meal.setMealName(mealName);
+        meal.setImage(R.drawable.test2);
+        meal.setMealType(mealType);
+        meal.setPortionSize(mealWeight);
+        mealDAO.insert(meal);
 
-        if (mealName.isEmpty() || mealWeight.isEmpty() || (mealImageBitmap == null && mealImageUri == null)) {
-            Toast.makeText(this, "Please fill all fields and select an image", Toast.LENGTH_SHORT).show();
-            return;
-        }
+
+
+        //if (mealName.isEmpty() ||  || (mealImageBitmap == null && mealImageUri == null)) {
+            //Toast.makeText(this, "Please fill all fields and select an image", Toast.LENGTH_SHORT).show();
+           // return;
+        //}
 
         // FUCKING ADD THESE MOTHERFUCKERS TO THE DATABASE WITH DATES AND THE FUCK ALL YA DUMB CUNT
 

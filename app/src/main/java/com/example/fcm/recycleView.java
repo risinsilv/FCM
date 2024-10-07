@@ -75,7 +75,8 @@ public class recycleView extends AppCompatActivity {
 
         List<Meal> temp = mealDAO.getMealsByDate("10-Sep-2024");
         recycleList = new ArrayList<>(temp);
-
+        recycleList.clear();
+        recycleViewAdapter.notifyDataSetChanged();
         recycleViewAdapter = new recycleViewAdapter(recycleList, this, new recycleViewAdapter.OnMealClickListener() {
             @Override
             public void onMealClick(Meal mealItem, int position) {
@@ -85,7 +86,7 @@ public class recycleView extends AppCompatActivity {
         recyclerView.setAdapter(recycleViewAdapter);
 
 
-        recyclerViewDate.setAdapter(dateAdapter);
+        //.setAdapter(dateAdapter);
         // Meal meal = new Meal();
         // meal.setDate("10-Sep-2024");
         // meal.setMealName("Empty");
@@ -93,7 +94,7 @@ public class recycleView extends AppCompatActivity {
         // mealDAO.insert(meal);
 
 
-        recyclerView.setAdapter(recycleViewAdapter);
+        //recyclerView.setAdapter(recycleViewAdapter);
       // Meal meal = new Meal();
       // meal.setDate("13-Sep-2024");
       // meal.setMealName("Rice");

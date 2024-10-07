@@ -1,42 +1,45 @@
 package com.example.fcm;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class recycleView extends AppCompatActivity {
-    ArrayList<recycleViewData> recycleList;
-    ArrayList<recycleViewDateData> recycleListDate;
+    ArrayList<Meal> recycleList;
+    ArrayList<DailyIntake> recycleListDate;
     RecyclerView recyclerView;
     RecyclerView recyclerViewDate;
     recycleViewAdapter recycleViewAdapter;
-    //HashMap<recycleViewDateData, MealData> mealDataMap;
-    private Map<recycleViewDateData, ArrayList<MealData>> mealDataMap = new HashMap<>();
-    private recycleViewDateData selectedDateData = null;
+    DailyIntakeDAO dailyIntakeDAO;
+    MealDAO mealDAO;
+
+
+    private DailyIntake selectedDateData = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_recycle_view);
 
-        mealDataMap = new HashMap<>();
+        dailyIntakeDAO = DailyIntakeDBinstance.getDataBase(getApplicationContext()).dailyIntakeDAO();
+        mealDAO = MealDBinstance.getDataBase1(getApplicationContext()).mealDAO();
+        //DailyIntake dailyIntake = new DailyIntake();
+        //dailyIntake.setDate("13-Sep-2024");
+
+
+
+
 
         recyclerViewDate = findViewById(R.id.recyclerViewDate);
         recyclerViewDate.setHasFixedSize(true);
@@ -47,123 +50,149 @@ public class recycleView extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
 
-        recycleListDate = new ArrayList<recycleViewDateData>();
-        recycleListDate.add(new recycleViewDateData(2024,"Oct",2));
-        recycleListDate.add(new recycleViewDateData(2024,"Oct",3));
-        recycleListDate.add(new recycleViewDateData(2024,"Oct",4));
-        recycleListDate.add(new recycleViewDateData(2024,"Oct",5));
-        recycleListDate.add(new recycleViewDateData(2024,"Oct",6));
-        recycleListDate.add(new recycleViewDateData(2024,"Oct",7));
-        recycleListDate.add(new recycleViewDateData(2024,"Oct",8));
-        recycleListDate.add(new recycleViewDateData(2024,"Oct",9));
+
+        List<DailyIntake> dailyIntakes = dailyIntakeDAO.getAlldates();//Converting list an array list
+        recycleListDate = new ArrayList<>(dailyIntakes);
+
 
         recycleViewDateAdapter dateAdapter = new recycleViewDateAdapter(recycleListDate, this, new recycleViewDateAdapter.OnDateClickListener() {
             @Override
-            public void onDateClick(recycleViewDateData dateData) {
-                selectedDateData = dateData;
+            public void onDateClick(DailyIntake dateData) {
                 updateMainRecyclerViewData(dateData);
-            }
-        });
-        recyclerViewDate.setAdapter(dateAdapter);
+                String temp = dateData.getDate();
+                Toast toast = Toast.makeText(recycleView.this,
+                        temp, Toast.LENGTH_SHORT);
+                toast.show();
 
-        recycleList = new ArrayList<>();
+            }
+
+        });
+
+        recyclerViewDate.setAdapter(dateAdapter);
+        // Meal meal = new Meal();
+        // meal.setDate("10-Sep-2024");
+        // meal.setMealName("Empty");
+        // meal.setImage(R.drawable.test2);
+        // mealDAO.insert(meal);
+
+
+
+        List<Meal> temp = mealDAO.getMealsByDate("10-Sep-2024");
+        recycleList = new ArrayList<>(temp);
+
         recycleViewAdapter = new recycleViewAdapter(recycleList, this, new recycleViewAdapter.OnMealClickListener() {
             @Override
-            public void onMealClick(recycleViewData mealItem, int position) {
-                showMealDetailsDialog(selectedDateData, position);
+            public void onMealClick(Meal mealItem, int position) {
+
             }
         });
         recyclerView.setAdapter(recycleViewAdapter);
+      // Meal meal = new Meal();
+      // meal.setDate("13-Sep-2024");
+      // meal.setMealName("Rice");
+      // meal.setImage(R.drawable.test2);
+      // mealDAO.insert(meal);
+      // meal.setDate("13-Sep-2024");
+      // meal.setMealName("Chicken");
+      // meal.setImage(R.drawable.test2);
+      // mealDAO.insert(meal);
+      // meal.setDate("13-Sep-2024");
+      // meal.setMealName("Pizza");
+      // meal.setImage(R.drawable.test2);
+      // mealDAO.insert(meal);
 
 
-        Button addButton = findViewById(R.id.addButton);
-        addButton.setOnClickListener(v -> {
-            if (selectedDateData != null) {
-                showMealInputDialog(selectedDateData);
-            } else {
-                Toast.makeText(this, "Please select a date first", Toast.LENGTH_SHORT).show();
-            }
-        });
+        //  Button addButton = findViewById(R.id.addButton);
+        //  addButton.setOnClickListener(v -> {
+        //      if (selectedDateData != null) {
+        //          showMealInputDialog(selectedDateData);
+        //      } else {
+        //          Toast.makeText(this, "Please select a date first", Toast.LENGTH_SHORT).show();
+        //      }
+        //  });
 
-    }
-
-    private void updateMainRecyclerViewData(recycleViewDateData dateData) {
-        recycleList.clear();
-
-        if (mealDataMap.containsKey(dateData)) {
-            ArrayList<MealData> mealsForDate = mealDataMap.get(dateData);
-
-            for (MealData mealData : mealsForDate) {
-                recycleList.add(new recycleViewData(R.drawable.test2, mealData.getMealName()));
-            }
-        } else {
-            recycleList.add(new recycleViewData(R.drawable.test2, "No meal data for this date."));
         }
 
-        recycleViewAdapter.notifyDataSetChanged();
+  private void updateMainRecyclerViewData(DailyIntake dateData) {
+     List<Meal> meal = mealDAO.getMealsByDate(dateData.getDate());
+
+    recycleList.clear();
+
+     //if (meal.isEmpty()) {
+
+
+     //} else {
+
+          //recycleList = new ArrayList<>(meal);
+          recycleList.addAll(new ArrayList<>(meal));
+
+     //}
+
+      recycleViewAdapter.notifyDataSetChanged();
+  }
+
+        // private void showMealInputDialog(recycleViewDateData dateData) {
+        //     // Create a dialog
+        //     AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //     LayoutInflater inflater = this.getLayoutInflater();
+        //     View dialogView = inflater.inflate(R.layout.dialog_add_meal, null);
+        //     builder.setView(dialogView);
+        //
+        //     // Get the UI elements from the dialog
+        //     EditText editTextMealName = dialogView.findViewById(R.id.editTextMealName);
+        //     EditText editTextCalories = dialogView.findViewById(R.id.editTextCalories);
+        //     EditText editTextIngredients = dialogView.findViewById(R.id.editTextIngredients);
+        //     Button buttonSaveMeal = dialogView.findViewById(R.id.buttonSaveMeal);
+        //
+        //     // Show the dialog
+        //     AlertDialog dialog = builder.create();
+        //     dialog.show();
+        //
+        //     // Save button click listener
+        //     buttonSaveMeal.setOnClickListener(v -> {
+        //         String mealName = editTextMealName.getText().toString();
+        //         int calories = Integer.parseInt(editTextCalories.getText().toString());
+        //         String ingredients = editTextIngredients.getText().toString();
+        //
+        //         // Create a new meal data object
+        //         MealData mealData = new MealData(mealName, calories, ingredients);
+        //
+        //         // Save this data to the selected date
+        //         saveMealDataForDate(dateData, mealData);
+        //
+        //         // Close the dialog
+        //         dialog.dismiss();
+        //     });
+        // }
+
+        // private void saveMealDataForDate(recycleViewDateData dateData, MealData mealData) {
+        //     // Retrieve the meal list for the date or create a new one if it doesn't exist
+        //     ArrayList<MealData> mealsForDate = mealDataMap.getOrDefault(dateData, new ArrayList<>());
+        //     mealsForDate.add(mealData);
+        //     mealDataMap.put(dateData, mealsForDate);
+        //     updateMainRecyclerViewData(dateData);
+        // }
+
+        //private void showMealDetailsDialog(recycleViewDateData dateData, int position) {
+        //     // Retrieve the meal list for the date
+        //     ArrayList<MealData> mealsForDate = mealDataMap.get(dateData);
+        //
+        //     // Ensure the list isn't null and the position is valid
+        //     if (mealsForDate != null && position < mealsForDate.size()) {
+        //         MealData mealData = mealsForDate.get(position);
+        //
+        //         // Show meal details in an alert dialog
+        //         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //         builder.setTitle("Meal Details");
+        //         builder.setMessage("Meal: " + mealData.getMealName() + "\n" +
+        //                 "Calories: " + mealData.getCalories() + "\n" +
+        //                 "Ingredients: " + mealData.getIngredients());
+        //         builder.setPositiveButton("OK", null);
+        //         builder.show();
+        //     } else {
+        //         Toast.makeText(this, "No meal data found.", Toast.LENGTH_SHORT).show();
+        //     }
+        // }
+
     }
 
-    private void showMealInputDialog(recycleViewDateData dateData) {
-        // Create a dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = this.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_add_meal, null);
-        builder.setView(dialogView);
-
-        // Get the UI elements from the dialog
-        EditText editTextMealName = dialogView.findViewById(R.id.editTextMealName);
-        EditText editTextCalories = dialogView.findViewById(R.id.editTextCalories);
-        EditText editTextIngredients = dialogView.findViewById(R.id.editTextIngredients);
-        Button buttonSaveMeal = dialogView.findViewById(R.id.buttonSaveMeal);
-
-        // Show the dialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-        // Save button click listener
-        buttonSaveMeal.setOnClickListener(v -> {
-            String mealName = editTextMealName.getText().toString();
-            int calories = Integer.parseInt(editTextCalories.getText().toString());
-            String ingredients = editTextIngredients.getText().toString();
-
-            // Create a new meal data object
-            MealData mealData = new MealData(mealName, calories, ingredients);
-
-            // Save this data to the selected date
-            saveMealDataForDate(dateData, mealData);
-
-            // Close the dialog
-            dialog.dismiss();
-        });
-    }
-
-    private void saveMealDataForDate(recycleViewDateData dateData, MealData mealData) {
-        // Retrieve the meal list for the date or create a new one if it doesn't exist
-        ArrayList<MealData> mealsForDate = mealDataMap.getOrDefault(dateData, new ArrayList<>());
-        mealsForDate.add(mealData);
-        mealDataMap.put(dateData, mealsForDate);
-        updateMainRecyclerViewData(dateData);
-    }
-
-    private void showMealDetailsDialog(recycleViewDateData dateData, int position) {
-        // Retrieve the meal list for the date
-        ArrayList<MealData> mealsForDate = mealDataMap.get(dateData);
-
-        // Ensure the list isn't null and the position is valid
-        if (mealsForDate != null && position < mealsForDate.size()) {
-            MealData mealData = mealsForDate.get(position);
-
-            // Show meal details in an alert dialog
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Meal Details");
-            builder.setMessage("Meal: " + mealData.getMealName() + "\n" +
-                    "Calories: " + mealData.getCalories() + "\n" +
-                    "Ingredients: " + mealData.getIngredients());
-            builder.setPositiveButton("OK", null);
-            builder.show();
-        } else {
-            Toast.makeText(this, "No meal data found.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-}

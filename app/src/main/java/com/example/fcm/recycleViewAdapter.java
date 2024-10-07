@@ -8,21 +8,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.helper.widget.Layer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 public class recycleViewAdapter extends RecyclerView.Adapter<recycleViewAdapter.ViewHolder> {
-    private ArrayList<recycleViewData> recycleList;
+    private ArrayList<Meal> recycleList;
     private Context context;
     private OnMealClickListener onMealClickListener;
 
     public interface OnMealClickListener {
-        void onMealClick(recycleViewData mealItem, int position);
+        void onMealClick(Meal mealItem, int position);
     }
 
-    public recycleViewAdapter(ArrayList<recycleViewData> recycleList, Context context, OnMealClickListener onMealClickListener) {
+    public recycleViewAdapter(ArrayList<Meal> recycleList, Context context, OnMealClickListener onMealClickListener) {
         this.recycleList = recycleList;
         this.context = context;
         this.onMealClickListener = onMealClickListener;
@@ -37,9 +36,9 @@ public class recycleViewAdapter extends RecyclerView.Adapter<recycleViewAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull recycleViewAdapter.ViewHolder holder, int position) {
-        recycleViewData mealItem = recycleList.get(position);
+        Meal mealItem = recycleList.get(position);
         holder.imageView.setImageResource(mealItem.getImage());
-        holder.textView.setText(mealItem.getText());
+        holder.textView.setText(mealItem.getMealName());
 
         holder.itemView.setOnClickListener(v -> {
             onMealClickListener.onMealClick(mealItem, position);

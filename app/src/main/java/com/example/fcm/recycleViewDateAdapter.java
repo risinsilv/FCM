@@ -12,15 +12,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class recycleViewDateAdapter extends RecyclerView.Adapter<recycleViewDateAdapter.ViewHolder>{
-    ArrayList<recycleViewDateData> recyclelist;
+    ArrayList<DailyIntake> recyclelist;
     Context context;
     OnDateClickListener onDateClickListener;
 
     public interface OnDateClickListener {
-        void onDateClick(recycleViewDateData dateData);
+        void onDateClick(DailyIntake dateData);
     }
 
-    public recycleViewDateAdapter(ArrayList<recycleViewDateData> recyclelist, Context context, OnDateClickListener listener) {
+    public recycleViewDateAdapter(ArrayList<DailyIntake> recyclelist, Context context, OnDateClickListener listener) {
         this.recyclelist = recyclelist;
         this.context = context;
         this.onDateClickListener = listener;
@@ -36,10 +36,15 @@ public class recycleViewDateAdapter extends RecyclerView.Adapter<recycleViewDate
     @Override
     public void onBindViewHolder(@NonNull recycleViewDateAdapter.ViewHolder holder, int position)
     {
-        recycleViewDateData dateData = recyclelist.get(position);
-        holder.year.setText(String.valueOf(dateData.getYear()));
-        holder.month.setText(dateData.getMonth());
-        holder.day.setText(String.valueOf(dateData.getDay()));
+        DailyIntake dateData = recyclelist.get(position);
+        String[] parts = dateData.getDate().split("-");
+
+        String day = parts[0];   // "01"
+        String month = parts[1]; // "sep"
+        String year = parts[2];  // "2024"
+        holder.year.setText(year);
+        holder.month.setText(month);
+        holder.day.setText(day);
 
         holder.itemView.setOnClickListener(v -> {
             onDateClickListener.onDateClick(dateData);

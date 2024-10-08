@@ -43,22 +43,65 @@
         android:text="Meal Date"
         android:textSize="16sp" />
 
-    <Button
-        android:id="@+id/editButton"
+    <!-- Calorie Information -->
+    <TextView
+        android:id="@+id/calorieTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/mealDateTextView"
         android:layout_marginTop="16dp"
         android:layout_centerHorizontal="true"
+        android:text="Calories: 0 kcal"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <!-- Nutrition Information (Fat, Carbs, Protein) -->
+    <TextView
+        android:id="@+id/fatTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/calorieTextView"
+        android:layout_marginTop="8dp"
+        android:layout_centerHorizontal="true"
+        android:text="Fat: 0 g"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/carbsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fatTextView"
+        android:layout_marginTop="8dp"
+        android:layout_centerHorizontal="true"
+        android:text="Carbs: 0 g"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/proteinTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/carbsTextView"
+        android:layout_marginTop="8dp"
+        android:layout_centerHorizontal="true"
+        android:text="Protein: 0 g"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/editButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/proteinTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp"
         android:text="Edit" />
 
     <Button
         android:id="@+id/nutritionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editButton"
-        android:layout_marginTop="16dp"
+        android:layout_below="@+id/editButton"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="82dp"
         android:text="Show Nutrition Info" />
 
 </RelativeLayout>

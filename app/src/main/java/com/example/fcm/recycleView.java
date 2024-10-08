@@ -66,7 +66,6 @@ public class recycleView extends AppCompatActivity {
             public void onDateClick(DailyIntake dateData) {
                 updateMainRecyclerViewData(dateData);
                 selectedDateData = dateData; // Set selected date data
-                Toast.makeText(recycleView.this, dateData.getDate(), Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -1,5 +1,6 @@
 package com.example.fcm;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -17,11 +19,12 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MealDetailActivity extends AppCompatActivity {
 
-    private ImageView mealImageView;
+    private ImageButton mealImageButton;
     private EditText weightEditText;
     private Bitmap mealImageBitmap;
     private Uri mealImageUri;
@@ -40,9 +43,7 @@ public class MealDetailActivity extends AppCompatActivity {
         weightEditText = findViewById(R.id.weightEditText);
         spinnerMealType = findViewById(R.id.spinnerMealType);
         Button buttonSaveMeal = findViewById(R.id.buttonSaveMeal);
-        mealImageView = findViewById(R.id.mealImageView);
-        Button captureButton = findViewById(R.id.captureButton);
-        Button galleryButton = findViewById(R.id.galleryButton);
+        mealImageButton = findViewById(R.id.mealImageButton);
         mealDAO = MealDBinstance.getDataBase1(getApplicationContext()).mealDAO();
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -70,7 +71,7 @@ public class MealDetailActivity extends AppCompatActivity {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         Bundle extras = result.getData().getExtras();
                         mealImageBitmap = (Bitmap) extras.get("data");
-                        mealImageView.setImageBitmap(mealImageBitmap);
+                        mealImageButton.setImageBitmap(mealImageBitmap);
                     }
                 }
         );
@@ -81,20 +82,12 @@ public class MealDetailActivity extends AppCompatActivity {
                 result -> {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         mealImageUri = result.getData().getData();
-                        mealImageView.setImageURI(mealImageUri);
+                        mealImageButton.setImageURI(mealImageUri);
                     }
                 }
         );
 
-        captureButton.setOnClickListener(v -> {
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            cameraLauncher.launch(takePictureIntent);
-        });
-
-        galleryButton.setOnClickListener(v -> {
-            Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            galleryLauncher.launch(galleryIntent);
-        });
+        mealImageButton.setOnClickListener(v -> showImageSourceDialog());
 
 
         findViewById(R.id.back_button).setOnClickListener(v -> finish());
@@ -106,6 +99,29 @@ public class MealDetailActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showImageSourceDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Choose Image Source");
+
+        String[] options = {"Camera", "Gallery"};
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    // Camera option selected
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    cameraLauncher.launch(takePictureIntent);
+                } else if (which == 1) {
+                    // Gallery option selected
+                    Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    galleryLauncher.launch(galleryIntent);
+                }
+            }
+        });
+
+        builder.show();
     }
 
     private void saveMeal() {

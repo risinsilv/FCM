@@ -18,6 +18,7 @@ public class recycleViewDateAdapter extends RecyclerView.Adapter<recycleViewDate
     ArrayList<DailyIntake> recyclelist;
     Context context;
     OnDateClickListener onDateClickListener;
+    private int selectedPosition = RecyclerView.NO_POSITION;
 
     public interface OnDateClickListener {
         void onDateClick(DailyIntake dateData);
@@ -49,9 +50,21 @@ public class recycleViewDateAdapter extends RecyclerView.Adapter<recycleViewDate
         holder.month.setText(month);
         holder.day.setText(day);
 
+        if (holder.cardViewd != null) {
+            if (selectedPosition == position) {
+                holder.cardViewd.setCardBackgroundColor(Color.parseColor("#FFC107")); // Highlight color
+            } else {
+                holder.cardViewd.setCardBackgroundColor(Color.parseColor("#0000FF")); // Default color
+            }
+        }
+
+
         holder.itemView.setOnClickListener(v -> {
             onDateClickListener.onDateClick(dateData);
 
+            notifyItemChanged(selectedPosition);  // Reset the previously selected item
+            selectedPosition = holder.getAdapterPosition();
+            notifyItemChanged(selectedPosition);
         });
 
     }
@@ -65,13 +78,13 @@ public class recycleViewDateAdapter extends RecyclerView.Adapter<recycleViewDate
         TextView year;
         TextView month;
         TextView day;
-        CardView cardView;
+        CardView cardViewd;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             year = itemView.findViewById(R.id.textView4);
             month = itemView.findViewById(R.id.textView5);
             day = itemView.findViewById(R.id.textView6);
-            cardView = itemView.findViewById(R.id.cardview);
+            cardViewd = itemView.findViewById(R.id.cardviewd);
 
         }
     }

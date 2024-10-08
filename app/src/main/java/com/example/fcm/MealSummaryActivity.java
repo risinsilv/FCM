@@ -38,6 +38,17 @@ public class MealSummaryActivity extends AppCompatActivity {
         mealType = intent.getStringExtra("mealType");
         mealDate = intent.getStringExtra("mealDate");
 
+        TextView calorieTextView = findViewById(R.id.calorieTextView);
+        TextView fatTextView = findViewById(R.id.fatTextView);
+        TextView carbsTextView = findViewById(R.id.carbsTextView);
+        TextView proteinTextView = findViewById(R.id.proteinTextView);
+
+
+//        calorieTextView.setText("Calories: " + calories + " kcal");
+//        fatTextView.setText("Fat: " + fat + " g");
+//        carbsTextView.setText("Carbs: " + carbs + " g");
+//        proteinTextView.setText("Protein: " + protein + " g");
+
 //        String mealImageUriString = intent.getStringExtra("mealImageUri");
 //        if (mealImageUriString != null) {
 //            mealImageUri = Uri.parse(mealImageUriString);

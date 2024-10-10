@@ -34,6 +34,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 import retrofit2.Call;
@@ -92,6 +95,8 @@ public class MealDetailActivity extends AppCompatActivity {
                         Bundle extras = result.getData().getExtras();
                         mealImageBitmap = (Bitmap) extras.get("data");
                         mealImageButton.setImageBitmap(mealImageBitmap);
+
+                        mealImageUri = saveImageToTemp(mealImageBitmap);
                     }
                 }
         );
@@ -123,6 +128,25 @@ public class MealDetailActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private Uri saveImageToTemp(Bitmap bitmap){
+        File tempfile = null;
+        try{
+            File cacheDir = getCacheDir();
+
+            tempfile = File.createTempFile("meal_image_",".jpg", cacheDir);
+
+            FileOutputStream fos = new FileOutputStream(tempfile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,fos);
+            fos.flush();
+            fos.close();
+
+            return Uri.fromFile(tempfile);
+        } catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private void showImageSourceDialog() {

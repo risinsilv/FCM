@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "624450806510",
+    "project_id": "fcmimages",
+    "storage_bucket": "fcmimages.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:624450806510:android:1bf81a9dd7f852c98149ff",
+        "android_client_info": {
+          "package_name": "com.example.fcm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClZBQ-2L506Ik27Ajezot2DxFoLyzVugM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

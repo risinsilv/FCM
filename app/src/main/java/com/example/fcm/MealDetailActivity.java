@@ -1,11 +1,15 @@
 package com.example.fcm;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -19,8 +23,22 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MealDetailActivity extends AppCompatActivity {
 
@@ -32,6 +50,7 @@ public class MealDetailActivity extends AppCompatActivity {
     private Spinner spinnerMealType;
     private ActivityResultLauncher<Intent> cameraLauncher;
     private ActivityResultLauncher<Intent> galleryLauncher;
+    Context context;
     MealDAO mealDAO;
 
     @Override
@@ -50,6 +69,7 @@ public class MealDetailActivity extends AppCompatActivity {
                 R.array.meal_types, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerMealType.setAdapter(adapter);
+
 
         buttonSaveMeal.setOnClickListener(v -> saveMeal());
 
@@ -92,6 +112,10 @@ public class MealDetailActivity extends AppCompatActivity {
 
         findViewById(R.id.back_button).setOnClickListener(v -> finish());
     }
+    public interface NutritionDataCallback {
+        void onNutritionDataFetched(Meal meal);
+        void onNutritionDataFailed(String errorMessage);
+    }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -130,15 +154,13 @@ public class MealDetailActivity extends AppCompatActivity {
        String mealType = spinnerMealType.getSelectedItem().toString();
        String date = getIntent().getStringExtra("selectedDate");
        Meal meal = new Meal();
+       String imageUri = String.valueOf(System.currentTimeMillis());//getting unique reference to a image uri
+       meal.setImage(imageUri);
+       saveImage(imageUri);// Saving image to firebase
        meal.setDate(date);
        meal.setMealName(mealName);
-       meal.setImage(R.drawable.test2);
        meal.setMealType(mealType);
        meal.setPortionSize(mealWeight);
-       mealDAO.insert(meal);
-
-        //String mealNamep = editTextMealName.getText().toString();
-        //String mealTypep = spinnerMealType.getSelectedItem().toString();
 
         // Validate the meal name
         if (mealName.isEmpty()) {
@@ -152,19 +174,20 @@ public class MealDetailActivity extends AppCompatActivity {
             return;
         }
 
-        // Validate image
-//        if (mealImageUri == null && mealImageBitmap == null) {
-//            Toast.makeText(this, "Please capture or select a meal image", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
+        //Validate image
+       if (mealImageUri == null && mealImageBitmap == null) {
+           Toast.makeText(this, "Please capture or select a meal image", Toast.LENGTH_SHORT).show();
+           return;
+       }
 
        ; // Get date from intent or use the current date
 
         // Create an Intent to pass the meal details to MealSummaryActivity
+
         Intent intentp = new Intent(MealDetailActivity.this, MealSummaryActivity.class);
         intentp.putExtra("mealName", mealName);
-        intentp.putExtra("mealType", mealType);
         intentp.putExtra("mealDate", date);
+        fetchAndSetNutritionData(mealName, mealWeight, meal,intentp);
 
 //        if (mealImageUri != null) {
 //            // Pass the image URI instead of Bitmap
@@ -174,8 +197,72 @@ public class MealDetailActivity extends AppCompatActivity {
 //            intentp.putExtra("mealImageBitmap", mealImageBitmap);
 //        }
 
-        startActivity(intentp);
+
 
         //Toast.makeText(this, "Meal saved: " + mealName + " (" + mealWeight + "g) - " + mealType, Toast.LENGTH_SHORT).show();
     }
+     private void saveImage(String imageUri){
+         StorageReference fileReference = FirebaseStorage.getInstance().getReference(imageUri);
+
+         fileReference.putFile(mealImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+             @Override
+             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                 Toast.makeText(MealDetailActivity.this, "Sucessfully uploaded", Toast.LENGTH_SHORT).show();
+             }
+         }).addOnFailureListener(new OnFailureListener() {
+             @Override
+             public void onFailure(@NonNull Exception e) {
+                 Toast.makeText(MealDetailActivity.this, "Upload failed", Toast.LENGTH_SHORT).show();
+             }
+         });
+
+     }
+    // API call to fetch nutrition data
+    private void fetchAndSetNutritionData(String query, double weight,Meal meal,Intent intent) {
+        CalorieNinjasApiService apiService = ApiClient.getClient().create(CalorieNinjasApiService.class);
+        Call<NutritionResponse> call = apiService.getNutritionInfo(query);
+
+        Log.d("DEBUG", "Making API Call with Query: " + query);
+
+        call.enqueue(new Callback<NutritionResponse>() {
+            @Override
+            public void onResponse(Call<NutritionResponse> call, Response<NutritionResponse> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().items != null && !response.body().items.isEmpty()) {
+
+                    Log.d("DEBUG", "API Response Success: " + response.body().toString());  // Log the response
+
+                    NutritionItem item = response.body().items.get(0);
+
+                    // Calculate nutrition values based on weight
+                    double calories = item.calories * (weight / 100);
+                    double fats = item.fat_total_g * (weight / 100);
+                    double proteins = item.protein_g * (weight / 100);
+                    double carbohydrates = item.carbohydrates_total_g * (weight / 100);
+
+                    // Start NutritionActivity to display the data
+                    meal.setCalories(calories);
+                    meal.setCarbohydrates(carbohydrates);
+                    meal.setFats(fats);
+                    meal.setProteins(proteins);
+                    mealDAO.insert(meal);
+                    startActivity(intent);
+
+
+                } else {
+                    Log.e("ERROR", "API Response Failed or No Items: " + response.code());  // Log error code and details
+                    Toast.makeText(MealDetailActivity.this, "Failed to get nutrition info", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NutritionResponse> call, Throwable t) {
+                Toast.makeText(MealDetailActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                mealDAO.insert(meal);
+                startActivity(intent);
+            }
+        });
+
+    }
+
 }

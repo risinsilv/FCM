@@ -22,5 +22,7 @@ public interface MealDAO {
     @Query("SELECT * FROM Meal WHERE date = :date")
     List<Meal> getMealsByDate(String date);
 
+    @Query("SELECT * FROM Meal WHERE date = :date and meal_name = :meal_name LIMIT 1")
+    Meal getTheMeal(String date,String meal_name);
 
 }

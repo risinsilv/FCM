@@ -34,15 +34,23 @@ public class Meal {
     private double carbohydrates;
 
     @ColumnInfo(name = "image")
-    private int image;
+    private String image;
 
-
+    @NonNull
     public String getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(@NonNull String date) {
         this.date = date;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getImage() {
+        return image;
     }
 
     public String getMealName() {
@@ -101,11 +109,4 @@ public class Meal {
         this.carbohydrates = carbohydrates;
     }
 
-    public int getImage() {
-        return image;
-    }
-
-    public void setImage(int image) {
-        this.image = image;
-    }
 }

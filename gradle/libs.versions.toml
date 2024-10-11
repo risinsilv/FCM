@@ -11,6 +11,7 @@ roomCompilerVersion = "2.6.1"
 roomRuntimeVersion = "2.6.1"
 googleGmsGoogleServices = "4.4.2"
 firebaseStorage = "21.0.1"
+firebaseAuth = "23.0.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -23,6 +24,7 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompilerVersion" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntimeVersion" }
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

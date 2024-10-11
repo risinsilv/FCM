@@ -53,7 +53,6 @@ public class MealDetailActivity extends AppCompatActivity {
     private Spinner spinnerMealType;
     private ActivityResultLauncher<Intent> cameraLauncher;
     private ActivityResultLauncher<Intent> galleryLauncher;
-    Context context;
     MealDAO mealDAO;
 
     @Override

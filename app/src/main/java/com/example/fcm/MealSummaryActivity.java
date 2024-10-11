@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MealSummaryActivity extends AppCompatActivity {
@@ -19,19 +20,18 @@ public class MealSummaryActivity extends AppCompatActivity {
     private String mealName, mealType, mealDate;
     double calories,fats,proteins,carbohydrates;
     private Bitmap mealImageBitmap;
-    private Uri mealImageUri;
-
+    ImageStorage imageStorage = ImageStorage.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_summary);
+        EdgeToEdge.enable(this);
 
-        mealImageView = findViewById(R.id.mealImageView);
+        mealImageView = findViewById(R.id.imageView2);
         mealNameTextView = findViewById(R.id.mealNameTextView);
         mealTypeTextView = findViewById(R.id.mealTypeTextView);
         mealDateTextView = findViewById(R.id.mealDateTextView);
-        editButton = findViewById(R.id.editButton);
-        nutritionButton = findViewById(R.id.nutritionButton);
+
 
         // Retrieve data from Intent
         Intent intent = getIntent();
@@ -39,6 +39,8 @@ public class MealSummaryActivity extends AppCompatActivity {
         mealDate = intent.getStringExtra("mealDate");
         MealDAO mealDAO = MealDBinstance.getDataBase1(getApplicationContext()).mealDAO();
         Meal meal = mealDAO.getTheMeal(mealDate,mealName);
+        mealImageBitmap = imageStorage.getImage(meal.getImage());
+
 
         mealType = meal.getMealType();
         calories = meal.getCalories();
@@ -58,12 +60,8 @@ public class MealSummaryActivity extends AppCompatActivity {
         carbsTextView.setText("Carbs: " + carbohydrates + " g");
         proteinTextView.setText("Protein: " + proteins + " g");
 
-        String mealImageUriString = intent.getStringExtra("mealImageUri");
-        if (mealImageUriString != null) {
-            mealImageUri = Uri.parse(mealImageUriString);
-            mealImageView.setImageURI(mealImageUri);
-        } else {
-            mealImageBitmap = intent.getParcelableExtra("mealImageBitmap");
+
+        if (mealImageBitmap != null) {
             mealImageView.setImageBitmap(mealImageBitmap);
         }
 

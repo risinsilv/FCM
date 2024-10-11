@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +23,6 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class recycleViewAdapter extends RecyclerView.Adapter<recycleViewAdapter.ViewHolder> {
     private ArrayList<Meal> recycleList;
@@ -55,10 +54,13 @@ public class recycleViewAdapter extends RecyclerView.Adapter<recycleViewAdapter.
         if(imageStorage.getImage(mealItem.getImage())!= null){
             Bitmap image = imageStorage.getImage(mealItem.getImage());
             holder.imageView.setImageBitmap(image);
+            Log.d("DEBUG", "Hash map is working");
         }else {
+
             setImage(mealItem, holder.imageView);
         }
         holder.textView.setText(mealItem.getMealName());
+
 
         holder.itemView.setOnClickListener(v -> {
             // Create an intent to navigate to MealDetailActivity
@@ -83,7 +85,7 @@ public class recycleViewAdapter extends RecyclerView.Adapter<recycleViewAdapter.
         TextView textView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageView);
+            imageView = itemView.findViewById(R.id.imageView2);
             textView = itemView.findViewById(R.id.textView);
 
         }

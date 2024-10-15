@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#D6DECD"
+    android:gravity="center"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#F2F8EB"
-    android:gravity="center">
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/textViewCalories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:text="Calories"
-        android:textSize="24sp"
-        android:layout_centerHorizontal="true"/>
+        android:textSize="24sp" />
 
     <ProgressBar
         android:id="@+id/calorieProgressBar"
@@ -22,10 +21,10 @@
         android:layout_height="100dp"
         android:layout_below="@id/textViewCalories"
         android:layout_centerHorizontal="true"
-        android:progress="0"
-        android:max="100"
         android:indeterminate="false"
-        android:progressDrawable="@drawable/circular_progress_bar"/>
+        android:max="100"
+        android:progress="0"
+        android:progressDrawable="@drawable/circular_progress_bar" />
 
     <TextView
         android:id="@+id/caloriesTextView"
@@ -33,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/calorieProgressBar"
         android:layout_centerHorizontal="true"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
 
     <!-- Protein Section -->
     <LinearLayout
@@ -46,10 +45,10 @@
             android:id="@+id/protein_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="start"
             android:text="Protein"
-            android:textSize="16sp"
             android:textColor="#888"
-            android:layout_gravity="start"/>
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -60,19 +59,19 @@
                 android:id="@+id/protein_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="start"
                 android:text="28g"
-                android:textSize="20sp"
                 android:textColor="#000"
-                android:layout_gravity="start"/>
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/protein_goal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
                 android:text="/ 60g"
-                android:textSize="14sp"
                 android:textColor="#888"
-                android:layout_gravity="end"/>
+                android:textSize="14sp" />
         </LinearLayout>
 
         <ProgressBar
@@ -80,10 +79,10 @@
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="8dp"
-            android:progress="50"
+            android:backgroundTint="#EEE"
             android:max="100"
-            android:progressTint="#FFCC00"
-            android:backgroundTint="#EEE"/>
+            android:progress="50"
+            android:progressTint="#FFCC00" />
     </LinearLayout>
 
     <!-- Carb Section -->
@@ -97,10 +96,10 @@
             android:id="@+id/carb_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="start"
             android:text="Carb"
-            android:textSize="16sp"
             android:textColor="#888"
-            android:layout_gravity="start"/>
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -111,19 +110,19 @@
                 android:id="@+id/carb_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="start"
                 android:text="100g"
-                android:textSize="20sp"
                 android:textColor="#000"
-                android:layout_gravity="start"/>
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/carb_goal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
                 android:text="/ 225g"
-                android:textSize="14sp"
                 android:textColor="#888"
-                android:layout_gravity="end"/>
+                android:textSize="14sp" />
         </LinearLayout>
 
         <ProgressBar
@@ -131,10 +130,10 @@
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="8dp"
-            android:progress="45"
+            android:backgroundTint="#EEE"
             android:max="100"
-            android:progressTint="#00CC00"
-            android:backgroundTint="#EEE"/>
+            android:progress="45"
+            android:progressTint="#00CC00" />
     </LinearLayout>
 
     <!-- Fat Section -->
@@ -148,10 +147,10 @@
             android:id="@+id/fat_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="start"
             android:text="Fat"
-            android:textSize="16sp"
             android:textColor="#888"
-            android:layout_gravity="start"/>
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -162,19 +161,19 @@
                 android:id="@+id/fat_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="start"
                 android:text="83g"
-                android:textSize="20sp"
                 android:textColor="#000"
-                android:layout_gravity="start"/>
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/fat_goal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
                 android:text="/ 77g"
-                android:textSize="14sp"
                 android:textColor="#888"
-                android:layout_gravity="end"/>
+                android:textSize="14sp" />
         </LinearLayout>
 
         <ProgressBar
@@ -182,18 +181,18 @@
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="8dp"
-            android:progress="100"
+            android:backgroundTint="#EEE"
             android:max="100"
-            android:progressTint="#FF4444"
-            android:backgroundTint="#EEE"/>
+            android:progress="100"
+            android:progressTint="#FF4444" />
     </LinearLayout>
 
     <Button
         android:id="@+id/back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back"
-        android:layout_margin="16dp" />
+        android:layout_margin="16dp"
+        android:text="Back" />
 
 
 </LinearLayout>

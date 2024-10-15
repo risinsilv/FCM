@@ -2,4 +2,25 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="green">#FF00FF00</color>
+    <color name="green_light">#B2FF59</color> <!-- Light Green -->
+
+    <color name="green_dark">#388E3C</color>
+    <color name="green_darker">#1B5E20</color> <!-- Darker Green -->
+    <color name="green_mint">#A5D6A7</color> <!-- Mint Green -->
+    <color name="green_forest">#2E7D32</color> <!-- Forest Green -->
+    <color name="green_lime">#CDDC39</color> <!-- Lime Green -->
+    <color name="green_olive">#8BC34A</color> <!-- Olive Green -->
+    <color name="green_seafoam">#80E27E</color> <!-- Seafoam Green -->
+    <color name="light_blue">#ADD8E6</color>
+    <color name="sky_blue">#87CEEB</color>
+    <color name="deep_sky_blue">#00BFFF</color>
+    <color name="dodger_blue">#1E90FF</color>
+    <color name="medium_blue">#0000CD</color>
+    <color name="royal_blue">#4169E1</color>
+    <color name="steel_blue">#4682B4</color>
+    <color name="slate_blue">#6A5ACD</color>
+    <color name="light_slate_blue">#8470FF</color>
+    <color name="dark_blue">#00008B</color>
+
 </resources>

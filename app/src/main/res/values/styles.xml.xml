@@ -1,0 +1,9 @@
+<!-- In res/values/styles.xml -->
+<resources>
+    <!-- Existing styles -->
+
+    <style name="ShapeAppearanceOverlay.Circle" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20dp</item> <!-- This should be half of the width/height for a perfect circle -->
+    </style>
+</resources>

@@ -89,6 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="Back"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

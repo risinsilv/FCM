@@ -1,0 +1,9 @@
+<!-- res/drawable/green_circle_button.xml -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#4CAF50"/> <!-- Green color -->
+            <size android:width="56dp" android:height="56dp"/> <!-- Adjust size based on your needs -->
+        </shape>
+    </item>
+</selector>

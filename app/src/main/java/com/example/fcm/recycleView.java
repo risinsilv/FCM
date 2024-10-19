@@ -3,7 +3,9 @@ package com.example.fcm;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -146,6 +148,14 @@ public class recycleView extends AppCompatActivity {
                 Toast.makeText(this, "Please select a date first", Toast.LENGTH_SHORT).show();
             }
         });
+
+//        ImageButton goalButton = findViewById(R.id.goalButton);
+//        goalButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
         }
 

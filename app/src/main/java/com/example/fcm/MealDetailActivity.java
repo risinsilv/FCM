@@ -47,7 +47,7 @@ import retrofit2.Response;
 public class MealDetailActivity extends AppCompatActivity {
 
     private ImageButton mealImageButton;
-    private EditText weightEditText;
+    private EditText weightEditText,textViewWeight;
     private Bitmap mealImageBitmap;
     private Uri mealImageUri;
     private EditText editTextMealName;

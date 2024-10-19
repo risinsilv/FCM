@@ -16,8 +16,8 @@
         android:layout_height="match_parent"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="20dp"
+        android:background="@color/white"
         android:orientation="vertical"
-        android:background="@drawable/background_half_green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="16dp">
@@ -44,9 +44,11 @@
             android:layout_height="match_parent"
             android:layout_margin="12dp"
             android:layout_weight="4"
+            app:cardBackgroundColor="@color/green_seafoam"
             app:cardCornerRadius="20dp">
 
             <LinearLayout
+                android:id="@+id/weight"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -57,8 +59,10 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
                     android:layout_weight="1"
+                    android:fontFamily="@font/opensansextrabold"
                     android:text="Meal Name"
                     android:textAlignment="center"
+                    android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -68,8 +72,10 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
                     android:layout_weight="1"
+                    android:fontFamily="@font/opensansbold"
                     android:text="Meal Date"
                     android:textAlignment="center"
+                    android:textColor="@color/black"
                     android:textSize="16sp" />
 
                 <TextView
@@ -78,9 +84,23 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
                     android:layout_weight="1"
+                    android:fontFamily="@font/opensansbold"
                     android:text="Meal Type"
                     android:textAlignment="center"
+                    android:textColor="@color/black"
                     android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/textviewWeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/opensansextrabold"
+                    android:text="Weight"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -91,6 +111,7 @@
             android:layout_height="match_parent"
             android:layout_margin="12dp"
             android:layout_weight="3"
+            app:cardBackgroundColor="@color/green_seafoam"
             app:cardCornerRadius="20dp"
             app:cardElevation="10dp">
 
@@ -122,7 +143,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
+                        android:autoText="false"
                         android:text="Calories: 0 kcal"
+                        android:textColor="@color/white"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -154,6 +177,7 @@
                         android:layout_margin="10dp"
                         android:layout_weight="1"
                         android:text="Fat: 0 g"
+                        android:textColor="@color/white"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -185,6 +209,7 @@
                         android:layout_margin="10dp"
                         android:layout_weight="1"
                         android:text="Protein: 0 g"
+                        android:textColor="@color/white"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -214,6 +239,7 @@
                         android:layout_margin="10dp"
                         android:layout_weight="1"
                         android:text="Carbs: 0 g"
+                        android:textColor="@color/white"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -224,7 +250,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
-                    android:text="Button" />
+                    android:text="edit" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

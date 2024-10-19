@@ -11,16 +11,18 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.ByteArrayOutputStream;
+
 public class MealSummaryActivity extends AppCompatActivity {
 
     private ImageView mealImageView;
-    private TextView mealNameTextView, mealTypeTextView, mealDateTextView;
+    private TextView mealNameTextView, mealTypeTextView, mealDateTextView, mealWeightTextView;
     private Button editButton;
-
     private String mealName, mealType, mealDate;
-    double calories,fats,proteins,carbohydrates;
+    double calories, fats, proteins, carbohydrates, weight;
     private Bitmap mealImageBitmap;
     ImageStorage imageStorage = ImageStorage.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +33,7 @@ public class MealSummaryActivity extends AppCompatActivity {
         mealNameTextView = findViewById(R.id.mealNameTextView);
         mealTypeTextView = findViewById(R.id.mealTypeTextView);
         mealDateTextView = findViewById(R.id.mealDateTextView);
+        mealWeightTextView = findViewById(R.id.textviewWeight);
         editButton = findViewById(R.id.editbutton);
 
 
@@ -39,14 +42,15 @@ public class MealSummaryActivity extends AppCompatActivity {
         mealName = intent.getStringExtra("mealName");
         mealDate = intent.getStringExtra("mealDate");
         MealDAO mealDAO = MealDBinstance.getDataBase1(getApplicationContext()).mealDAO();
-        Meal meal = mealDAO.getTheMeal(mealDate,mealName);
+        Meal meal = mealDAO.getTheMeal(mealDate, mealName);
 
         mealImageBitmap = imageStorage.getImage(meal.getImage());
+        weight = meal.getPortionSize();
         mealType = meal.getMealType();
         calories = meal.getCalories();
-            fats = meal.getFats();
-            proteins = meal.getProteins();
-            carbohydrates = meal.getCarbohydrates();
+        fats = meal.getFats();
+        proteins = meal.getProteins();
+        carbohydrates = meal.getCarbohydrates();
 
 
         TextView calorieTextView = findViewById(R.id.calorieTextView);
@@ -69,29 +73,20 @@ public class MealSummaryActivity extends AppCompatActivity {
         mealNameTextView.setText(mealName);
         mealTypeTextView.setText(mealType);
         mealDateTextView.setText(mealDate);
+        mealWeightTextView.setText(weight + "g");
+
 
         // Handle the Edit button
-      editButton.setOnClickListener(v -> {
-          Intent editIntent = new Intent(MealSummaryActivity.this, MealDetailActivity.class);
-          editIntent.putExtra("mealName", mealName);
-          editIntent.putExtra("mealType", mealType);
-          editIntent.putExtra("mealDate", mealDate);
-          editIntent.putExtra("mealImage",mealImageBitmap);
-          editIntent.putExtra("calories",calories);
-          editIntent.putExtra("fats",fats);
-          editIntent.putExtra("carbs",carbohydrates);
-          editIntent.putExtra("protien",proteins);
+        editButton.setOnClickListener(v -> {
+            Intent editIntent = new Intent(MealSummaryActivity.this, EditMeal.class);
 
-          //editIntent.putExtra("mealImageUri", mealImageUri != null ? mealImageUri.toString() : null);
-          startActivity(editIntent);
-      });
+            editIntent.putExtra("mealName", mealName);
+            editIntent.putExtra("mealDate", mealDate);
 
-        // Handle the Nutrition Info button
-  //     nutritionButton.setOnClickListener(v -> {
-  //         Intent nutritionIntent = new Intent(MealSummaryActivity.this, NutritionActivity.class);
-  //         nutritionIntent.putExtra("mealName", mealName);
-  //         startActivity(nutritionIntent);
-  //     });
-   }
+
+            startActivity(editIntent);
+        });
+
+    }
 }
 

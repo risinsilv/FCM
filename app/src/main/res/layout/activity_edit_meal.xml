@@ -10,6 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:backgroundTint="@color/white"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp">
@@ -18,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="12dp"
-            android:layout_weight="2"
+            android:layout_weight="4"
             app:cardCornerRadius="20dp"
             app:cardElevation="10dp">
 
@@ -35,8 +36,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="12dp"
-            android:layout_weight="1"
-            app:cardCornerRadius="12dp">
+            android:layout_weight="3"
+            app:cardBackgroundColor="@color/green_seafoam"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -48,7 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:hint="Enter Meal Name"
                     android:inputType="text" />
 
@@ -56,7 +59,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:orientation="horizontal">
 
                     <TextView
@@ -82,151 +85,168 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:hint="Enter weight (g)"
                     android:inputType="numberDecimal" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="1dp">
-
-                <ImageView
-                    android:id="@+id/calorieIconImageView"
-                    android:layout_width="50dp"
-                    android:layout_height="60dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/circle_shape"
-                    android:clipToOutline="true"
-                    android:contentDescription="Calorie Icon"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Circle"
-                    app:srcCompat="@drawable/calorie"
-
-                    />
-
-                <EditText
-                    android:id="@+id/editCalories"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="1dp"
                     android:layout_weight="1"
-                    android:ems="10"
-                    android:inputType="text"
-                    android:hint="Calories" />
-            </LinearLayout>
+                    android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="1dp">
+                    <ImageView
+                        android:id="@+id/calorieIconImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="6"
+                        android:background="@drawable/circle_shape"
+                        android:clipToOutline="true"
+                        android:contentDescription="Calorie Icon"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Circle"
 
-                <ImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="50dp"
-                    android:layout_height="60dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/circle_shape"
-                    android:clipToOutline="true"
-                    android:contentDescription="fat Icon"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Circle"
-                    app:srcCompat="@drawable/fat" />
+                        app:srcCompat="@drawable/calorie" />
 
-                <EditText
-                    android:id="@+id/editFat"
+                    <EditText
+                        android:id="@+id/editCalories"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="Calories"
+                        android:inputType="numberDecimal" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="1dp"
                     android:layout_weight="1"
-                    android:ems="10"
-                    android:inputType="text"
-                    android:hint="Fat" />
+                    android:orientation="horizontal">
 
-            </LinearLayout>
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="6"
+                        android:background="@drawable/circle_shape"
+                        android:clipToOutline="true"
+                        android:contentDescription="fat Icon"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Circle"
+                        app:srcCompat="@drawable/fat" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="1dp">
+                    <EditText
+                        android:id="@+id/editFat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="Fat"
+                        android:inputType="numberDecimal" />
 
-                <ImageView
-                    android:id="@+id/imageView4"
-                    android:layout_width="50dp"
-                    android:layout_height="60dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/circle_shape"
-                    android:clipToOutline="true"
-                    android:contentDescription="protien Icon"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Circle"
-                    app:srcCompat="@drawable/protein" />
+                </LinearLayout>
 
-                <EditText
-                    android:id="@+id/editProteins"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="1dp"
                     android:layout_weight="1"
-                    android:ems="10"
-                    android:inputType="text"
-                    android:hint="Protein"/>
+                    android:orientation="horizontal">
 
-            </LinearLayout>
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="6"
+                        android:background="@drawable/circle_shape"
+                        android:clipToOutline="true"
+                        android:contentDescription="protien Icon"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Circle"
+                        app:srcCompat="@drawable/protein" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="1dp">
+                    <EditText
+                        android:id="@+id/editProteins"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="Protein"
+                        android:inputType="numberDecimal" />
 
+                </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/imageView5"
-                    android:layout_width="50dp"
-                    android:layout_height="60dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/circle_shape"
-                    android:clipToOutline="true"
-                    android:contentDescription="carbs Icon"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Circle"
-                    app:srcCompat="@drawable/carbs" />
-
-                <EditText
-                    android:id="@+id/editCarbs"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="1dp"
                     android:layout_weight="1"
-                    android:ems="10"
-                    android:inputType="text"
-                    android:hint="Carbs" />
+                    android:orientation="horizontal">
 
-            </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/imageView5"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="6"
+                        android:background="@drawable/circle_shape"
+                        android:clipToOutline="true"
+                        android:contentDescription="carbs Icon"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Circle"
+                        app:srcCompat="@drawable/carbs" />
+
+                    <EditText
+                        android:id="@+id/editCarbs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="Carbs"
+                        android:inputType="numberDecimal" />
+
+                </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/saveButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Button" />
-
-                    <Button
-                        android:id="@+id/deleteButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Button" />
                 </LinearLayout>
 
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="12dp"
+            android:layout_weight="6"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/saveButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Save" />
+
+            <Button
+                android:id="@+id/deleteButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Delete" />
+        </LinearLayout>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,90 +6,97 @@
     android:layout_height="match_parent"
     tools:context=".MealDetailActivity">
 
-    <TextView
-        android:id="@+id/tt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Meal Details"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/editTextMealName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editTextMealName"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter Meal Name"
-        android:inputType="text"
-        app:layout_constraintTop_toBottomOf="@id/tt" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_margin="12dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp">
 
-    <ImageButton
-        android:id="@+id/mealImageButton"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:contentDescription="Add or capture meal image"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@id/weightEditText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextMealName" />
+            <ImageButton
+                android:id="@+id/mealImageButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/food"
+                android:scaleType="fitXY"
+                tools:srcCompat="@drawable/food" />
+        </androidx.cardview.widget.CardView>
 
-    <EditText
-        android:id="@+id/weightEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Enter weight (g)"
-        android:inputType="numberDecimal"
-        app:layout_constraintTop_toBottomOf="@+id/mealImageButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/ttt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Select Meal Type:"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/weightEditText" />
+                <EditText
+                    android:id="@+id/editTextMealName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:hint="Enter Meal Name"
+                    android:inputType="text" />
 
-    <Spinner
-        android:id="@+id/spinnerMealType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintBottom_toTopOf="@id/buttonSaveMeal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ttt" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/buttonSaveMeal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save Meal"
-        app:layout_constraintBottom_toTopOf="@id/back_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinnerMealType" />
+                    <TextView
+                        android:id="@+id/ttt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Select Meal Type:"
+                        android:textSize="18sp" />
 
+                    <Spinner
+                        android:id="@+id/spinnerMealType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
+                </LinearLayout>
 
-    <Button
-        android:id="@+id/back_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="Back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:ignore="MissingConstraints" />
+                <EditText
+                    android:id="@+id/weightEditText"
+                    android:layout_width="379dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:hint="Enter weight (g)"
+                    android:inputType="numberDecimal" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/buttonSaveMeal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Save Meal"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

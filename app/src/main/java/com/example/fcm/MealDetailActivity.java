@@ -21,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -59,6 +60,7 @@ public class MealDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_detail);
+        EdgeToEdge.enable(this);
 
         editTextMealName = findViewById(R.id.editTextMealName);
         weightEditText = findViewById(R.id.weightEditText);
@@ -75,11 +77,7 @@ public class MealDetailActivity extends AppCompatActivity {
 
         buttonSaveMeal.setOnClickListener(v -> saveMeal());
 
-        // Enable back navigation
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Meal Details");
-        }
+
 
         // Get meal name from Intent
         Intent intent = getIntent();
@@ -114,7 +112,6 @@ public class MealDetailActivity extends AppCompatActivity {
         mealImageButton.setOnClickListener(v -> showImageSourceDialog());
 
 
-        findViewById(R.id.back_button).setOnClickListener(v -> finish());
     }
     public interface NutritionDataCallback {
         void onNutritionDataFetched(Meal meal);
@@ -175,16 +172,6 @@ public class MealDetailActivity extends AppCompatActivity {
        String mealName = editTextMealName.getText().toString();
      double mealWeight = Double.parseDouble(weightEditText.getText().toString());
        String mealType = spinnerMealType.getSelectedItem().toString();
-       String date = getIntent().getStringExtra("selectedDate");
-       Meal meal = new Meal();
-       String imageUri = String.valueOf(System.currentTimeMillis());//getting unique reference to a image uri
-       meal.setImage(imageUri);
-       saveImage(imageUri);// Saving image to firebase
-       meal.setDate(date);
-       meal.setMealName(mealName);
-       meal.setMealType(mealType);
-       meal.setPortionSize(mealWeight);
-
         // Validate the meal name
         if (mealName.isEmpty()) {
             Toast.makeText(this, "Please enter a meal name", Toast.LENGTH_SHORT).show();
@@ -198,29 +185,25 @@ public class MealDetailActivity extends AppCompatActivity {
         }
 
         //Validate image
-       if (mealImageUri == null && mealImageBitmap == null) {
-           Toast.makeText(this, "Please capture or select a meal image", Toast.LENGTH_SHORT).show();
-           return;
-       }
+        if (mealImageUri == null && mealImageBitmap == null) {
+            Toast.makeText(this, "Please capture or select a meal image", Toast.LENGTH_SHORT).show();
+            return;
+        }
+       String date = getIntent().getStringExtra("selectedDate");
+       Meal meal = new Meal();
+       String imageUri = String.valueOf(System.currentTimeMillis());//getting unique reference to a image uri
+       meal.setImage(imageUri);
+       saveImage(imageUri);// Saving image to firebase
+       meal.setDate(date);
+       meal.setMealName(mealName);
+       meal.setMealType(mealType);
+       meal.setPortionSize(mealWeight);
 
-       ; // Get date from intent or use the current date
-
-        // Create an Intent to pass the meal details to MealSummaryActivity
 
         Intent intentp = new Intent(MealDetailActivity.this, MealSummaryActivity.class);
         intentp.putExtra("mealName", mealName);
         intentp.putExtra("mealDate", date);
         fetchAndSetNutritionData(mealName, mealWeight, meal,intentp);
-
-//        if (mealImageUri != null) {
-//            // Pass the image URI instead of Bitmap
-//            intentp.putExtra("mealImageUri", mealImageUri.toString());
-//        } else if (mealImageBitmap != null) {
-//            // If using a small image bitmap, pass as Parcelable (Be cautious with large images)
-//            intentp.putExtra("mealImageBitmap", mealImageBitmap);
-//        }
-
-
 
         //Toast.makeText(this, "Meal saved: " + mealName + " (" + mealWeight + "g) - " + mealType, Toast.LENGTH_SHORT).show();
     }

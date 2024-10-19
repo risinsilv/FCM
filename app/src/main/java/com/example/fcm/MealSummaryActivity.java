@@ -15,7 +15,7 @@ public class MealSummaryActivity extends AppCompatActivity {
 
     private ImageView mealImageView;
     private TextView mealNameTextView, mealTypeTextView, mealDateTextView;
-    private Button editButton, nutritionButton;
+    private Button editButton;
 
     private String mealName, mealType, mealDate;
     double calories,fats,proteins,carbohydrates;
@@ -31,6 +31,7 @@ public class MealSummaryActivity extends AppCompatActivity {
         mealNameTextView = findViewById(R.id.mealNameTextView);
         mealTypeTextView = findViewById(R.id.mealTypeTextView);
         mealDateTextView = findViewById(R.id.mealDateTextView);
+        editButton = findViewById(R.id.editbutton);
 
 
         // Retrieve data from Intent
@@ -39,9 +40,8 @@ public class MealSummaryActivity extends AppCompatActivity {
         mealDate = intent.getStringExtra("mealDate");
         MealDAO mealDAO = MealDBinstance.getDataBase1(getApplicationContext()).mealDAO();
         Meal meal = mealDAO.getTheMeal(mealDate,mealName);
+
         mealImageBitmap = imageStorage.getImage(meal.getImage());
-
-
         mealType = meal.getMealType();
         calories = meal.getCalories();
             fats = meal.getFats();
@@ -71,14 +71,20 @@ public class MealSummaryActivity extends AppCompatActivity {
         mealDateTextView.setText(mealDate);
 
         // Handle the Edit button
-     //  editButton.setOnClickListener(v -> {
-     //      Intent editIntent = new Intent(MealSummaryActivity.this, MealDetailActivity.class);
-     //      editIntent.putExtra("mealName", mealName);
-     //      editIntent.putExtra("mealType", mealType);
-     //      editIntent.putExtra("mealDate", mealDate);
-     //      //editIntent.putExtra("mealImageUri", mealImageUri != null ? mealImageUri.toString() : null);
-     //      startActivity(editIntent);
-     //  });
+      editButton.setOnClickListener(v -> {
+          Intent editIntent = new Intent(MealSummaryActivity.this, MealDetailActivity.class);
+          editIntent.putExtra("mealName", mealName);
+          editIntent.putExtra("mealType", mealType);
+          editIntent.putExtra("mealDate", mealDate);
+          editIntent.putExtra("mealImage",mealImageBitmap);
+          editIntent.putExtra("calories",calories);
+          editIntent.putExtra("fats",fats);
+          editIntent.putExtra("carbs",carbohydrates);
+          editIntent.putExtra("protien",proteins);
+
+          //editIntent.putExtra("mealImageUri", mealImageUri != null ? mealImageUri.toString() : null);
+          startActivity(editIntent);
+      });
 
         // Handle the Nutrition Info button
   //     nutritionButton.setOnClickListener(v -> {

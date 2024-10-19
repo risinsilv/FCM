@@ -79,7 +79,7 @@ public class recycleView extends AppCompatActivity {
 
         recyclerViewDate.setAdapter(dateAdapter);
 
-        List<Meal> temp = mealDAO.getMealsByDate("10-Sep-2024");
+        List<Meal> temp = mealDAO.getMealsByDate(currentDate);
         recycleList = new ArrayList<>(temp);
         recycleViewAdapter = new recycleViewAdapter(recycleList, this, new recycleViewAdapter.OnMealClickListener() {
             @Override
@@ -110,30 +110,6 @@ public class recycleView extends AppCompatActivity {
                 Toast.makeText(this, "Current date not found", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-        //.setAdapter(dateAdapter);
-        // Meal meal = new Meal();
-        // meal.setDate("10-Sep-2024");
-        // meal.setMealName("Empty");
-        // meal.setImage(R.drawable.test2);
-        // mealDAO.insert(meal);
-
-
-        //recyclerView.setAdapter(recycleViewAdapter);
-      // Meal meal = new Meal();
-      // meal.setDate("13-Sep-2024");
-      // meal.setMealName("Rice");
-      // meal.setImage(R.drawable.test2);
-      // mealDAO.insert(meal);
-      // meal.setDate("13-Sep-2024");
-      // meal.setMealName("Chicken");
-      // meal.setImage(R.drawable.test2);
-      // mealDAO.insert(meal);
-      // meal.setDate("13-Sep-2024");
-      // meal.setMealName("Pizza");
-      // meal.setImage(R.drawable.test2);
-      // mealDAO.insert(meal);
 
 
         Button addButton = findViewById(R.id.addButton);

@@ -8,6 +8,28 @@
     android:background="@color/white"
     tools:context=".recycleView">
 
+    <Button
+        android:id="@+id/scrollToCurrentDateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="16dp"
+        android:text="Today"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/addDateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="16dp"
+        android:text="Add Date"
+        app:layout_constraintEnd_toStartOf="@id/scrollToCurrentDateButton"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,41 +43,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="4dp"
             android:layout_weight="15"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="4dp"
-                android:layout_weight="15"
-                android:fontFamily="@font/opensansbold"
-                android:text="Wecome,"
-                android:textColor="@color/black"
-                android:textSize="24sp"
-                tools:layout_weight="3" />
-
-            <Button
-                android:id="@+id/addDateButton"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:layout_weight="4"
-                android:text="Add Date" />
-
-            <Button
-                android:id="@+id/scrollToCurrentDateButton"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="4"
-                android:text="Today"
-                android:textSize="18sp" />
-
-        </LinearLayout>
+            android:fontFamily="@font/opensansbold"
+            android:text="Wecome,"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewDate"
@@ -69,41 +66,29 @@
             android:layout_height="match_parent"
             android:layout_weight="5" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/linearLayout2"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            tools:layout_weight="15"
-            tools:layout_width="match_parent">
+            android:layout_weight="14"
+            android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/goalButton"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:background="@color/white"
-                android:src="@drawable/ic_clock"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/addButton"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Goal"
+                android:textSize="24sp" />
 
             <Button
                 android:id="@+id/addButton"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginTop="2dp"
-                android:background="@drawable/green_circle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="+"
-                android:textColor="@color/white"
-                android:textSize="32sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/goalButton"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textSize="24sp" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

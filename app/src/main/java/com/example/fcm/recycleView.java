@@ -132,7 +132,7 @@ public class recycleView extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "Current date not found", Toast.LENGTH_SHORT).show();
             }
-        });
+        });//lol
 
 
         Button addButton = findViewById(R.id.addButton);

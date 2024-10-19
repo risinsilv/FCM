@@ -52,9 +52,14 @@ public class recycleViewDateAdapter extends RecyclerView.Adapter<recycleViewDate
 
         if (holder.cardViewd != null) {
             if (selectedPosition == position) {
-                holder.cardViewd.setCardBackgroundColor(Color.parseColor("#FFC107")); // Highlight color
+                holder.year.setBackgroundColor(Color.parseColor("#50C878"));
+                holder.month.setTextColor(Color.parseColor("#50C878"));
+                holder.day.setTextColor(Color.parseColor("#50C878"));
+                holder.cardViewd.setCardBackgroundColor(Color.parseColor("#FFFFFF")); // Highlight color
             } else {
-                holder.cardViewd.setCardBackgroundColor(Color.parseColor("#0000FF")); // Default color
+                holder.month.setTextColor(Color.parseColor("#FFFFFF"));
+                holder.day.setTextColor(Color.parseColor("#FFFFFF"));
+                holder.cardViewd.setCardBackgroundColor(Color.parseColor("#50C878")); // Default color
             }
         }
 

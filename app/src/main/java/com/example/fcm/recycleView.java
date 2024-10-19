@@ -1,5 +1,6 @@
 package com.example.fcm;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -11,13 +12,16 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TreeSet;
 import java.util.stream.IntStream;
 
 public class recycleView extends AppCompatActivity {
@@ -62,6 +66,7 @@ public class recycleView extends AppCompatActivity {
             recycleListDate.add(dailyIntake);
         }
 
+
         // Find the position of the current date
         String currentDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(calendar.getTime());
         int currentPosition = IntStream.range(0, recycleListDate.size()).filter(i -> recycleListDate.get(i).getDate().equals(currentDate)).findFirst().orElse(-1);
@@ -93,6 +98,24 @@ public class recycleView extends AppCompatActivity {
         if (currentPosition != -1) {
             recyclerViewDate.scrollToPosition(currentPosition);
         }
+
+        Button addDateButton = findViewById(R.id.addDateButton);
+        addDateButton.setOnClickListener(v -> {
+            // Show a DatePickerDialog to let the user select a new date
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+                // Format the date (e.g., 10-Sep-2024)
+                String formattedDate = String.format("%02d-%s-%d", dayOfMonth, getMonthShortName(month + 1), year);
+
+                // Create a new DailyIntake object for the new date
+                DailyIntake newDate = new DailyIntake();
+                newDate.setDate(formattedDate);
+
+                // Insert the new date into the list at the correct position
+                insertNewDate(newDate);
+            }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+
+            datePickerDialog.show();
+        });
 
         Button scrollToCurrentDateButton = findViewById(R.id.scrollToCurrentDateButton);
         scrollToCurrentDateButton.setOnClickListener(v -> {
@@ -176,6 +199,58 @@ public class recycleView extends AppCompatActivity {
         allDates.addAll(DateUtils.getDatesOfMonth(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR)));
 
         return allDates;
+    }
+    private List<DailyIntake> removeDuplicatesAndSort(List<DailyIntake> dateList) {
+        // Use a TreeSet to remove duplicates and sort dates
+        TreeSet<DailyIntake> sortedSet = new TreeSet<>((d1, d2) -> compareDates(d1.getDate(), d2.getDate()));
+        sortedSet.addAll(dateList);
+
+        return new ArrayList<>(sortedSet);
+    }
+
+    private String getMonthShortName(int month) {
+        String[] monthNames = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+        return monthNames[month - 1];
+    }
+
+    // Method to insert the new date into the correct position in the list
+    private void insertNewDate(DailyIntake newDate) {
+        int insertPosition = 0;
+
+        // Find the correct position to insert the new date
+        for (int i = 0; i < recycleListDate.size(); i++) {
+            DailyIntake existingDate = recycleListDate.get(i);
+            if (compareDates(newDate.getDate(), existingDate.getDate()) < 0) {
+                insertPosition = i;
+                break;
+            } else if (i == recycleListDate.size() - 1) {
+                // If the new date is after all existing dates, insert it at the end
+                insertPosition = recycleListDate.size();
+            }
+        }
+
+        // Insert the new date into the list
+        recycleListDate.add(insertPosition, newDate);
+
+        // Insert the new date into the database (Make sure DailyIntakeDAO has an insert method)
+        dailyIntakeDAO.insert(newDate);
+
+        // Notify the adapter and scroll to the new date
+        dateAdapter.notifyItemInserted(insertPosition);
+        recyclerViewDate.scrollToPosition(insertPosition); // Optionally scroll to the new date
+    }
+
+    // Helper method to compare dates in format dd-MMM-yyyy (e.g., 10-Sep-2024)
+    private int compareDates(String date1, String date2) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+        try {
+            Date d1 = dateFormat.parse(date1);
+            Date d2 = dateFormat.parse(date2);
+            return d1.compareTo(d2); // Returns negative if d1 is before d2, 0 if equal, positive if after
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
         // private void showMealInputDialog(recycleViewDateData dateData) {

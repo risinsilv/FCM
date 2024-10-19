@@ -72,20 +72,29 @@
             android:layout_weight="14"
             android:orientation="horizontal">
 
-            <Button
+            <ImageButton
                 android:id="@+id/button3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginEnd="70dp"
+                android:layout_weight=".5"
+                android:scaleType="center"
+                android:background="@color/white"
+                android:src="@drawable/ic_pie"
                 android:text="Goal"
                 android:textSize="24sp" />
 
             <Button
                 android:id="@+id/addButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginStart="60dp"
+                android:layout_marginEnd="60dp"
+                android:layout_weight=".5"
+                android:background="@drawable/green_circle"
                 android:text="+"
+                android:textColor="@color/white"
                 android:textSize="24sp" />
 
         </LinearLayout>

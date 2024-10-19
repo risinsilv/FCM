@@ -23,11 +23,11 @@
         tools:layout_editor_absoluteX="16dp">
 
 
-    <androidx.cardview.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="match_parent"
             android:layout_margin="12dp"
-            android:layout_weight="1"
+            android:layout_weight="3"
             app:cardCornerRadius="20dp"
             app:cardElevation="10dp">
 
@@ -41,9 +41,9 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="12dp"
-            android:layout_weight="1"
+            android:layout_weight="4"
             app:cardCornerRadius="20dp">
 
             <LinearLayout
@@ -88,9 +88,9 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="12dp"
-            android:layout_weight="5"
+            android:layout_weight="3"
             app:cardCornerRadius="20dp"
             app:cardElevation="10dp">
 
@@ -115,12 +115,13 @@
                         android:clipToOutline="true"
                         android:contentDescription="Calorie Icon"
                         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Circle"
-                        app:srcCompat="@drawable/calorie" /> <!-- Ensure this is set -->
+                        app:srcCompat="@drawable/calorie" />
 
                     <TextView
                         android:id="@+id/calorieTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
                         android:text="Calories: 0 kcal"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -144,7 +145,7 @@
                         android:clipToOutline="true"
                         android:contentDescription="fat Icon"
                         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Circle"
-                        app:srcCompat="@drawable/fat" /> <!-- Ensure this is set -->
+                        app:srcCompat="@drawable/fat" />
 
                     <TextView
                         android:id="@+id/fatTextView"
@@ -218,19 +219,12 @@
 
                 </LinearLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/linearLayout3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <Button
-                        android:id="@+id/button4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Button"
-                        tools:layout_editor_absoluteX="129dp"
-                        tools:layout_editor_absoluteY="21dp" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                <Button
+                    android:id="@+id/editbutton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:text="Button" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

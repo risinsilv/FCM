@@ -65,6 +65,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
+
                         android:text="Select Meal Type:"
                         android:textSize="18sp" />
 
@@ -85,6 +86,25 @@
                     android:hint="Enter weight (g)"
                     android:inputType="numberDecimal" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="1dp">
+
+                <ImageView
+                    android:id="@+id/calorieIconImageView"
+                    android:layout_width="50dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/circle_shape"
+                    android:clipToOutline="true"
+                    android:contentDescription="Calorie Icon"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Circle"
+                    app:srcCompat="@drawable/calorie"
+
+                    />
+
                 <EditText
                     android:id="@+id/editCalories"
                     android:layout_width="match_parent"
@@ -93,7 +113,25 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="text"
-                    android:text="Name" />
+                    android:hint="Calories" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="1dp">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="50dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/circle_shape"
+                    android:clipToOutline="true"
+                    android:contentDescription="fat Icon"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Circle"
+                    app:srcCompat="@drawable/fat" />
 
                 <EditText
                     android:id="@+id/editFat"
@@ -103,7 +141,26 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="text"
-                    android:text="Name" />
+                    android:hint="Fat" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="1dp">
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="50dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/circle_shape"
+                    android:clipToOutline="true"
+                    android:contentDescription="protien Icon"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Circle"
+                    app:srcCompat="@drawable/protein" />
 
                 <EditText
                     android:id="@+id/editProteins"
@@ -113,7 +170,27 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="text"
-                    android:text="Name" />
+                    android:hint="Protein"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="1dp">
+
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="50dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/circle_shape"
+                    android:clipToOutline="true"
+                    android:contentDescription="carbs Icon"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Circle"
+                    app:srcCompat="@drawable/carbs" />
 
                 <EditText
                     android:id="@+id/editCarbs"
@@ -123,8 +200,9 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="text"
-                    android:text="Name" />
+                    android:hint="Carbs" />
 
+            </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -24,10 +24,11 @@ public class recycleViewDateAdapter extends RecyclerView.Adapter<recycleViewDate
         void onDateClick(DailyIntake dateData);
     }
 
-    public recycleViewDateAdapter(ArrayList<DailyIntake> recyclelist, Context context, OnDateClickListener listener) {
+    public recycleViewDateAdapter(ArrayList<DailyIntake> recyclelist, Context context, OnDateClickListener listener, int currentPosition) {
         this.recyclelist = recyclelist;
         this.context = context;
         this.onDateClickListener = listener;
+        this.selectedPosition = currentPosition;
     }
 
     @NonNull
@@ -51,7 +52,7 @@ public class recycleViewDateAdapter extends RecyclerView.Adapter<recycleViewDate
         holder.day.setText(day);
 
         if (holder.cardViewd != null) {
-            if (selectedPosition == position) {
+            if (position == selectedPosition) {
                 holder.year.setBackgroundColor(Color.parseColor("#50C878"));
                 holder.month.setTextColor(Color.parseColor("#50C878"));
                 holder.day.setTextColor(Color.parseColor("#50C878"));
@@ -92,5 +93,8 @@ public class recycleViewDateAdapter extends RecyclerView.Adapter<recycleViewDate
             cardViewd = itemView.findViewById(R.id.cardviewd);
 
         }
+    }
+    public void setSelectedPosition(int position) {
+        this.selectedPosition = position;
     }
 }

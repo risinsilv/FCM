@@ -11,11 +11,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 public class recycleView extends AppCompatActivity {
     ArrayList<Meal> recycleList;
@@ -23,6 +26,7 @@ public class recycleView extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView recyclerViewDate;
     recycleViewAdapter recycleViewAdapter;
+    recycleViewDateAdapter dateAdapter;
     DailyIntakeDAO dailyIntakeDAO;
     MealDAO mealDAO;
 
@@ -48,9 +52,7 @@ public class recycleView extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
         Calendar calendar = Calendar.getInstance();
-        int month = calendar.get(Calendar.MONTH);
-        int year = calendar.get(Calendar.YEAR);
-        List<String> dates = DateUtils.getDatesOfMonth(month, year);
+        List<String> dates = getThreeMonthsDates();
 
         // Populate the recycleListDate with DailyIntake objects
         recycleListDate = new ArrayList<>();
@@ -60,14 +62,19 @@ public class recycleView extends AppCompatActivity {
             recycleListDate.add(dailyIntake);
         }
 
-        // Set up the date adapter
-        recycleViewDateAdapter dateAdapter = new recycleViewDateAdapter(recycleListDate, this, new recycleViewDateAdapter.OnDateClickListener() {
+        // Find the position of the current date
+        String currentDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(calendar.getTime());
+        int currentPosition = IntStream.range(0, recycleListDate.size()).filter(i -> recycleListDate.get(i).getDate().equals(currentDate)).findFirst().orElse(-1);
+
+        // Set up the date adapter with the current date highlighted
+        dateAdapter = new recycleViewDateAdapter(recycleListDate, this, new recycleViewDateAdapter.OnDateClickListener() {
             @Override
             public void onDateClick(DailyIntake dateData) {
                 updateMainRecyclerViewData(dateData);
                 selectedDateData = dateData; // Set selected date data
+                Toast.makeText(recycleView.this, dateData.getDate(), Toast.LENGTH_SHORT).show();
             }
-        });
+        }, currentPosition);  // Pass the current date position to the
 
 
         recyclerViewDate.setAdapter(dateAdapter);
@@ -81,6 +88,28 @@ public class recycleView extends AppCompatActivity {
             }
         });
         recyclerView.setAdapter(recycleViewAdapter);
+
+        // Scroll to the current date position
+        if (currentPosition != -1) {
+            recyclerViewDate.scrollToPosition(currentPosition);
+        }
+
+        Button scrollToCurrentDateButton = findViewById(R.id.scrollToCurrentDateButton);
+        scrollToCurrentDateButton.setOnClickListener(v -> {
+            // Scroll to the current date position
+            if (currentPosition != -1) {
+                recyclerViewDate.scrollToPosition(currentPosition);
+                if (recycleListDate.size() > currentPosition) {
+                    DailyIntake currentDateData = recycleListDate.get(currentPosition);
+
+                    dateAdapter.setSelectedPosition(currentPosition); // Mark as selected if needed
+                    Toast.makeText(recycleView.this, currentDateData.getDate(), Toast.LENGTH_SHORT).show();
+                    dateAdapter.notifyDataSetChanged();
+                }
+            } else {
+                Toast.makeText(this, "Current date not found", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         //.setAdapter(dateAdapter);
@@ -127,6 +156,26 @@ public class recycleView extends AppCompatActivity {
         recycleList.clear();
         recycleList.addAll(new ArrayList<>(meal));
         recycleViewAdapter.notifyDataSetChanged();
+    }
+
+    private List<String> getThreeMonthsDates() {
+        List<String> allDates = new ArrayList<>();
+
+        Calendar calendar = Calendar.getInstance();
+
+        // Get dates for the previous month
+        calendar.add(Calendar.MONTH, -1);
+        allDates.addAll(DateUtils.getDatesOfMonth(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR)));
+
+        // Get dates for the current month
+        calendar.add(Calendar.MONTH, 1);
+        allDates.addAll(DateUtils.getDatesOfMonth(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR)));
+
+        // Get dates for the next month
+        calendar.add(Calendar.MONTH, 1);
+        allDates.addAll(DateUtils.getDatesOfMonth(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR)));
+
+        return allDates;
     }
 
         // private void showMealInputDialog(recycleViewDateData dateData) {

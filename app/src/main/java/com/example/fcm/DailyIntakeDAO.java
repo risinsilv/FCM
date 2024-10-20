@@ -20,4 +20,7 @@ public interface DailyIntakeDAO {
 
     @Query("SELECT * FROM daily_intake")
     List<DailyIntake> getAlldates();
+
+    @Query(("SELECT * FROM daily_intake WHERE date = :date"))
+    DailyIntake getData(String date);
 }

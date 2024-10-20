@@ -165,6 +165,20 @@ public class recycleView extends AppCompatActivity {
             }
         });
 
+        ImageButton dailyGoal = findViewById(R.id.button3);
+        dailyGoal.setOnClickListener(v -> {
+            if (selectedDateData != null) {
+                double goalIntake = 0;
+                // Launch MealDetailActivity and pass the selected date data
+                Intent intent = new Intent(recycleView.this, MealDetailActivity.class);
+                intent.putExtra("selectedDate", selectedDateData.getDate());
+                intent.putExtra("goalIntake",goalIntake);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Please select a date first", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         }
 
     private void updateMainRecyclerViewData(DailyIntake dateData) {

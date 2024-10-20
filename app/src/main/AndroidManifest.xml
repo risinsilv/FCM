@@ -13,6 +13,9 @@
         android:theme="@style/Theme.FCM"
         tools:targetApi="31">
         <activity
+            android:name=".Nutrition"
+            android:exported="false" />
+        <activity
             android:name=".EditMeal"
             android:exported="false" />
         <activity

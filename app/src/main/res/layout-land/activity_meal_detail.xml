@@ -91,6 +91,8 @@
                 android:id="@+id/buttonSaveMeal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/button_backg"
+                android:textColor="@color/white"
                 android:layout_gravity="center"
                 android:text="Save Meal" />
 

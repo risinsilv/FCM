@@ -22,6 +22,7 @@ public class MealSummaryActivity extends AppCompatActivity {
     double calories, fats, proteins, carbohydrates, weight;
     private Bitmap mealImageBitmap;
     ImageStorage imageStorage = ImageStorage.getInstance();
+    private Button backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +84,13 @@ public class MealSummaryActivity extends AppCompatActivity {
             editIntent.putExtra("mealDate", mealDate);
             startActivity(editIntent);
         });
+
+        editButton.setOnClickListener(v -> {
+            Intent Intent = new Intent(MealSummaryActivity.this, recycleView.class);
+            startActivity(Intent);
+        });
+
+
 
     }
 }

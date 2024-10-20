@@ -266,6 +266,20 @@
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/backButton4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_backg"
+                android:fontFamily="@font/opensansbold"
+                android:text="Back"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <Button
                 android:id="@+id/editbutton"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

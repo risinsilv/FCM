@@ -45,6 +45,8 @@ import java.io.IOException;
      String mealNameS,mealDateS;
      Spinner spinner;
      ImageStorage imageStorage = ImageStorage.getInstance();
+
+
      @Override
      protected void onCreate(Bundle savedInstanceState) {
          super.onCreate(savedInstanceState);

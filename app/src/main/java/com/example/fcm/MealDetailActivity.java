@@ -1,5 +1,6 @@
 package com.example.fcm;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -58,6 +59,7 @@ public class MealDetailActivity extends AppCompatActivity {
     private ProgressBar loading;
     Button buttonSaveMeal;
     MealDAO mealDAO;
+    ImageStorage imageStorage = ImageStorage.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,8 +195,7 @@ public class MealDetailActivity extends AppCompatActivity {
        String date = getIntent().getStringExtra("selectedDate");
        Meal meal = new Meal();
        String imageUri = String.valueOf(System.currentTimeMillis());//getting unique reference to a image uri
-       meal.setImage(imageUri);
-       saveImage(imageUri);// Saving image to firebase
+       meal.setImage(imageUri);// Saving image to firebase
        meal.setDate(date);
        meal.setMealName(mealName);
        meal.setMealType(mealType);
@@ -204,30 +205,41 @@ public class MealDetailActivity extends AppCompatActivity {
         Intent intentp = new Intent(MealDetailActivity.this, MealSummaryActivity.class);
         intentp.putExtra("mealName", mealName);
         intentp.putExtra("mealDate", date);
-        fetchAndSetNutritionData(mealName, mealWeight, meal,intentp);
 
-        //Toast.makeText(this, "Meal saved: " + mealName + " (" + mealWeight + "g) - " + mealType, Toast.LENGTH_SHORT).show();
+        saveImage(imageUri, meal, intentp);
+
     }
-     private void saveImage(String imageUri){
-         buttonSaveMeal.setEnabled(false);
-         loading.setVisibility(View.VISIBLE);
-         StorageReference fileReference = FirebaseStorage.getInstance().getReference(imageUri);
+    private void saveImage(String imageUri, Meal meal, Intent intent) {
+        buttonSaveMeal.setEnabled(false);
+        loading.setVisibility(View.VISIBLE);
+        StorageReference fileReference = FirebaseStorage.getInstance().getReference(imageUri);
+
+        fileReference.putFile(mealImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // Image successfully uploaded
+                Toast.makeText(MealDetailActivity.this, "Image successfully uploaded", Toast.LENGTH_SHORT).show();
+                try {
+                    imageStorage.addImage(imageUri,uriToBitmap(mealImageUri));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                // Now proceed to save the meal and start the next activity
+
+                fetchAndSetNutritionData(meal.getMealName(), meal.getPortionSize(), meal, intent);
 
 
-         fileReference.putFile(mealImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-             @Override
-             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                 Toast.makeText(MealDetailActivity.this, "Sucessfully uploaded", Toast.LENGTH_SHORT).show();
-                 buttonSaveMeal.setEnabled(true);
-             }
-         }).addOnFailureListener(new OnFailureListener() {
-             @Override
-             public void onFailure(@NonNull Exception e) {
-                 Toast.makeText(MealDetailActivity.this, "Upload failed", Toast.LENGTH_SHORT).show();
-             }
-         });
-
-     }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MealDetailActivity.this, "Image upload failed", Toast.LENGTH_SHORT).show();
+                buttonSaveMeal.setEnabled(true);
+                loading.setVisibility(View.GONE);
+            }
+        });
+    }
     // API call to fetch nutrition data
     private void fetchAndSetNutritionData(String query, double weight,Meal meal,Intent intent) {
         CalorieNinjasApiService apiService = ApiClient.getClient().create(CalorieNinjasApiService.class);
@@ -256,6 +268,7 @@ public class MealDetailActivity extends AppCompatActivity {
                     meal.setFats(fats);
                     meal.setProteins(proteins);
                     mealDAO.insert(meal);
+                    loading.setVisibility(View.GONE);
                     startActivity(intent);
 
 
@@ -274,6 +287,11 @@ public class MealDetailActivity extends AppCompatActivity {
             }
         });
 
+    }
+    private Bitmap uriToBitmap(Uri uri)throws IOException{
+        ContentResolver contentResolver = getContentResolver();
+        InputStream inputStream = contentResolver.openInputStream(uri);
+        return BitmapFactory.decodeStream(inputStream);
     }
 
 }

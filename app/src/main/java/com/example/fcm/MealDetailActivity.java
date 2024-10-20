@@ -224,9 +224,7 @@ public class MealDetailActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-
                 // Now proceed to save the meal and start the next activity
-
                 fetchAndSetNutritionData(meal.getMealName(), meal.getPortionSize(), meal, intent);
 
 

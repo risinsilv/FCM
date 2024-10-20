@@ -174,9 +174,17 @@ public class recycleView extends AppCompatActivity {
         ImageButton dailyGoal = findViewById(R.id.button3);
         dailyGoal.setOnClickListener(v -> {
             if (selectedDateData != null) {
-
-                showGoalInputDialog();
+                if(dailyIntakeDAO.getData(selectedDateData.getDate()).getTergatIntake() == 0) {
+                    showGoalInputDialog();
+                }else{
+                    Double goalIntake = dailyIntakeDAO.getData(selectedDateData.getDate()).getTergatIntake();
+                    Intent intent = new Intent(recycleView.this, Nutrition.class);
+                    intent.putExtra("selectedDate", selectedDateData.getDate());
+                    intent.putExtra("goalIntake", goalIntake);
+                    startActivity(intent);
+                }
             } else {
+
                 Toast.makeText(this, "Please select a date first", Toast.LENGTH_SHORT).show();
             }
         });
@@ -295,9 +303,13 @@ public class recycleView extends AppCompatActivity {
                         // Validate the input (check if it's not empty and is a valid number)
                         if (!calorieGoalStr.isEmpty() && calorieGoalStr.matches("\\d+")) {
                             double goalIntake = Double.parseDouble(calorieGoalStr);
+                            DailyIntake dailyIntake2 = new DailyIntake();
+                            dailyIntake2.setDate(selectedDateData.getDate());
+                            dailyIntake2.setTergatIntake(goalIntake);
+                            dailyIntakeDAO.update(dailyIntake2);
 
                             // Launch MealDetailActivity and pass the selected date and calorie goal
-                            Intent intent = new Intent(recycleView.this, MealDetailActivity.class);
+                            Intent intent = new Intent(recycleView.this, Nutrition.class);
                             intent.putExtra("selectedDate", selectedDateData.getDate());
                             intent.putExtra("goalIntake", goalIntake);
                             startActivity(intent);

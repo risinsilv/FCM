@@ -23,7 +23,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="14"
+            android:layout_weight="15"
             android:orientation="horizontal">
 
             <TextView
@@ -31,20 +31,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="4dp"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:fontFamily="@font/opensansbold"
-                android:text="Wecome,"
+                android:text="Welcome,"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
 
             <Button
                 android:id="@+id/addDateButton"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_gravity="end"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
                 android:layout_marginEnd="10dp"
                 android:layout_weight="3"
                 android:background="@drawable/button_backg"
+                android:fontFamily="@font/opensansbold"
                 android:text="Add Date"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
@@ -52,9 +53,11 @@
             <Button
                 android:id="@+id/scrollToCurrentDateButton"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
                 android:layout_weight="3"
                 android:background="@drawable/button_backg"
+                android:fontFamily="@font/opensansbold"
                 android:text="Today"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
@@ -65,18 +68,18 @@
             android:id="@+id/recyclerViewDate"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="13" />
+            android:layout_weight="14" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="12" />
+            android:layout_weight="6" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="17"
+            android:layout_weight="15"
             android:orientation="horizontal">
 
             <ImageButton

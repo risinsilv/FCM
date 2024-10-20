@@ -4,7 +4,7 @@
 
     <!-- Set the background color to a mix of green and white -->
     <solid
-       android:color="#00FF7F"
+       android:color="#50C878"
         android:angle="270"/>
 
     <!-- Set the corner radius for rounded edges -->

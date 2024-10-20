@@ -98,10 +98,11 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="5"
-            android:textColor="@color/white"
             android:background="@drawable/button_backg"
+            android:fontFamily="@font/opensansbold"
             android:text="Save Meal"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@color/white" />
 
         <ProgressBar
             android:id="@+id/progressBar"

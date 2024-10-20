@@ -175,6 +175,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_weight="1"
                         android:ems="10"
                         android:hint="Protein"
@@ -229,13 +231,21 @@
             android:id="@+id/saveButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:layout_weight="1"
-            android:text="Save" />
+            android:background="@drawable/button_backg"
+            android:fontFamily="@font/opensansbold"
+            android:text="Save"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/deleteButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_backg"
+            android:fontFamily="@font/opensansbold"
+            android:textColor="@color/white"
             android:layout_weight="1"
             android:text="Delete" />
     </LinearLayout>

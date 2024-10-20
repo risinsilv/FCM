@@ -312,7 +312,7 @@ public class recycleView extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss(); // Close the dialog on cancel
                     }
-                });
+                }); //o
 
         // Show the dialog
         builder.create().show();

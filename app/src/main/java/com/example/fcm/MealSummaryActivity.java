@@ -36,6 +36,7 @@ public class MealSummaryActivity extends AppCompatActivity {
         mealDateTextView = findViewById(R.id.mealDateTextView);
         mealWeightTextView = findViewById(R.id.textviewWeight);
         editButton = findViewById(R.id.editbutton);
+        backButton = findViewById(R.id.backButton4);
 
 
         // Retrieve data from Intent
@@ -85,7 +86,7 @@ public class MealSummaryActivity extends AppCompatActivity {
             startActivity(editIntent);
         });
 
-        editButton.setOnClickListener(v -> {
+        backButton.setOnClickListener(v -> {
             Intent Intent = new Intent(MealSummaryActivity.this, recycleView.class);
             startActivity(Intent);
         });

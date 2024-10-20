@@ -98,6 +98,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="5"
+            android:textColor="@color/white"
+            android:background="@drawable/button_backg"
             android:text="Save Meal"
             android:textAlignment="center" />
 

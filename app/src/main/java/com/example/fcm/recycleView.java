@@ -160,9 +160,11 @@ public class recycleView extends AppCompatActivity {
         addButton.setOnClickListener(v -> {
             if (selectedDateData != null) {
                 // Launch MealDetailActivity and pass the selected date data
-                DailyIntake date = new DailyIntake();
-                date.setDate(selectedDateData.getDate());
-                dailyIntakeDAO.insert(selectedDateData);
+                if (dailyIntakeDAO.getData(selectedDateData.getDate()) == null){
+                    DailyIntake date = new DailyIntake();
+                    date.setDate(selectedDateData.getDate());
+                    dailyIntakeDAO.insert(selectedDateData);
+            }
                 Intent intent = new Intent(recycleView.this, MealDetailActivity.class);
                 intent.putExtra("selectedDate", selectedDateData.getDate()); // Passing the selected date
                 startActivity(intent);
@@ -330,69 +332,6 @@ public class recycleView extends AppCompatActivity {
         builder.create().show();
     }
 
-
-    // private void showMealInputDialog(recycleViewDateData dateData) {
-        //     // Create a dialog
-        //     AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        //     LayoutInflater inflater = this.getLayoutInflater();
-        //     View dialogView = inflater.inflate(R.layout.dialog_add_meal, null);
-        //     builder.setView(dialogView);
-        //
-        //     // Get the UI elements from the dialog
-        //     EditText editTextMealName = dialogView.findViewById(R.id.editTextMealName);
-        //     EditText editTextCalories = dialogView.findViewById(R.id.editTextCalories);
-        //     EditText editTextIngredients = dialogView.findViewById(R.id.editTextIngredients);
-        //     Button buttonSaveMeal = dialogView.findViewById(R.id.buttonSaveMeal);
-        //
-        //     // Show the dialog
-        //     AlertDialog dialog = builder.create();
-        //     dialog.show();
-        //
-        //     // Save button click listener
-        //     buttonSaveMeal.setOnClickListener(v -> {
-        //         String mealName = editTextMealName.getText().toString();
-        //         int calories = Integer.parseInt(editTextCalories.getText().toString());
-        //         String ingredients = editTextIngredients.getText().toString();
-        //
-        //         // Create a new meal data object
-        //         MealData mealData = new MealData(mealName, calories, ingredients);
-        //
-        //         // Save this data to the selected date
-        //         saveMealDataForDate(dateData, mealData);
-        //
-        //         // Close the dialog
-        //         dialog.dismiss();
-        //     });
-        // }
-
-        // private void saveMealDataForDate(recycleViewDateData dateData, MealData mealData) {
-        //     // Retrieve the meal list for the date or create a new one if it doesn't exist
-        //     ArrayList<MealData> mealsForDate = mealDataMap.getOrDefault(dateData, new ArrayList<>());
-        //     mealsForDate.add(mealData);
-        //     mealDataMap.put(dateData, mealsForDate);
-        //     updateMainRecyclerViewData(dateData);
-        // }
-
-        //private void showMealDetailsDialog(recycleViewDateData dateData, int position) {
-        //     // Retrieve the meal list for the date
-        //     ArrayList<MealData> mealsForDate = mealDataMap.get(dateData);
-        //
-        //     // Ensure the list isn't null and the position is valid
-        //     if (mealsForDate != null && position < mealsForDate.size()) {
-        //         MealData mealData = mealsForDate.get(position);
-        //
-        //         // Show meal details in an alert dialog
-        //         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        //         builder.setTitle("Meal Details");
-        //         builder.setMessage("Meal: " + mealData.getMealName() + "\n" +
-        //                 "Calories: " + mealData.getCalories() + "\n" +
-        //                 "Ingredients: " + mealData.getIngredients());
-        //         builder.setPositiveButton("OK", null);
-        //         builder.show();
-        //     } else {
-        //         Toast.makeText(this, "No meal data found.", Toast.LENGTH_SHORT).show();
-        //     }
-        // }
 
     }
 

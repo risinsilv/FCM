@@ -100,9 +100,10 @@
             android:layout_weight="5"
             android:background="@drawable/button_backg"
             android:fontFamily="@font/opensansbold"
-            android:text="Save Meal"
+            android:text="Save"
             android:textAlignment="center"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            tools:fontFamily="@font/opensansbold" />
 
         <ProgressBar
             android:id="@+id/progressBar"

@@ -23,6 +23,8 @@ import java.util.List;
 public class Nutrition extends AppCompatActivity {
     DailyIntakeDAO dailyIntakeDAO;
     MealDAO mealDAO;
+    String date;
+    Double goalIntake;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,8 +38,8 @@ public class Nutrition extends AppCompatActivity {
         dailyIntakeDAO = DailyIntakeDBinstance.getDataBase(getApplicationContext()).dailyIntakeDAO();
         mealDAO = MealDBinstance.getDataBase1(getApplicationContext()).mealDAO();
 
-        String date = getIntent().getStringExtra("selectedDate");
-        Double goalIntake = getIntent().getDoubleExtra("goalIntake",0);
+         date = getIntent().getStringExtra("selectedDate");
+        goalIntake = getIntent().getDoubleExtra("goalIntake",0);
         double totalCalories;
 
         List<Meal> meals = mealDAO.getMealsByDate(date);
@@ -75,6 +77,11 @@ public class Nutrition extends AppCompatActivity {
                     String newGoalStr = inputGoal.getText().toString();
                     if (!newGoalStr.isEmpty() && newGoalStr.matches("\\d+")) {
                         double newGoalIntake = Double.parseDouble(newGoalStr);
+                        DailyIntake dailyIntake2 = new DailyIntake();
+                        dailyIntake2.setDate(date);
+                        dailyIntake2.setTergatIntake(newGoalIntake);
+                        dailyIntakeDAO.update(dailyIntake2);
+
 
                         // Update the goal in the TextView and ProgressBar
                         goalTextView.setText(String.valueOf(newGoalIntake));

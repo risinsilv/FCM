@@ -274,6 +274,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_backg"
+                android:fontFamily="@font/opensansbold"
                 android:text="Edit"
                 android:textColor="@color/white"
                 android:textSize="20sp" />

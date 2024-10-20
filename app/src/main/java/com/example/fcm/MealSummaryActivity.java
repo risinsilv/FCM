@@ -87,8 +87,8 @@ public class MealSummaryActivity extends AppCompatActivity {
         });
 
         backButton.setOnClickListener(v -> {
-            Intent Intent = new Intent(MealSummaryActivity.this, recycleView.class);
-            startActivity(Intent);
+            Intent backIntent = new Intent(MealSummaryActivity.this, recycleView.class);
+            startActivity(backIntent);
         });
 
 

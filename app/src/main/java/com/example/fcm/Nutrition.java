@@ -38,12 +38,18 @@ public class Nutrition extends AppCompatActivity {
         dailyIntakeDAO = DailyIntakeDBinstance.getDataBase(getApplicationContext()).dailyIntakeDAO();
         mealDAO = MealDBinstance.getDataBase1(getApplicationContext()).mealDAO();
 
-         date = getIntent().getStringExtra("selectedDate");
+        date = getIntent().getStringExtra("selectedDate");
         goalIntake = getIntent().getDoubleExtra("goalIntake",0);
         double totalCalories;
 
         List<Meal> meals = mealDAO.getMealsByDate(date);
         totalCalories = meals.stream().mapToDouble(Meal::getCalories).sum();
+        String formattedTotalCalories = String.format("%.2f", totalCalories);
+        String formattedGoalIntake = String.format("%.2f", goalIntake);
+
+
+        caloriesTextView.setText(formattedTotalCalories);
+        caloriesGoalTextView.setText(String.valueOf("Goal: " + formattedGoalIntake));
 
         int progress = (int) ((totalCalories * 100)/goalIntake);
 

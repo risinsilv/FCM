@@ -107,6 +107,7 @@ public class recycleViewAdapter extends RecyclerView.Adapter<recycleViewAdapter.
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
+                    imageView.setImageResource(R.drawable.food);
 
                 }
             });

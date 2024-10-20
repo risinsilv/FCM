@@ -2,6 +2,7 @@ package com.example.fcm;
 
 import static java.lang.String.valueOf;
 
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,10 +10,12 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -35,15 +38,18 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
- public class EditMeal extends AppCompatActivity {
+public class EditMeal extends AppCompatActivity {
      private ActivityResultLauncher<Intent> cameraLauncher;
      private ActivityResultLauncher<Intent> galleryLauncher;
      private Bitmap mealImageBitmap;
      private Uri mealImageUri;
+     private ProgressBar loading;
      EditText mealName,mealWeight,calories,fats,protein,carbs;
      String mealNameS,mealDateS;
      Spinner spinner;
+    Button saveButton,deleteButton;
      ImageStorage imageStorage = ImageStorage.getInstance();
 
 
@@ -61,7 +67,9 @@ import java.io.IOException;
          fats = findViewById(R.id.editFat);
          protein = findViewById(R.id.editProteins);
          carbs = findViewById(R.id.editCarbs);
-         Button saveButton =  findViewById(R.id.saveButton);
+         saveButton =  findViewById(R.id.saveButton);
+         deleteButton =  findViewById(R.id.deleteButton);
+         loading = findViewById(R.id.progressBar2);
 
 
 
@@ -113,6 +121,7 @@ import java.io.IOException;
          );
          imageButton.setOnClickListener(v -> showImageSourceDialog());
          saveButton.setOnClickListener(v -> saveMeal());
+         deleteButton.setOnClickListener(v -> deleteMeal());
 
 
      }
@@ -175,7 +184,7 @@ import java.io.IOException;
 
          Meal meal = new Meal();
          meal.setImage(imageUri);
-         saveImage(imageUri);// Saving image to firebase
+
          meal.setDate(mealDateS);
          meal.setMealName(mName);
          meal.setMealType(mealType);
@@ -184,23 +193,58 @@ import java.io.IOException;
          meal.setCarbohydrates( mCarbs);
          meal.setFats(mFats );
          meal.setProteins(mProteins);
-         mealDAO.insert(meal);
+
+         Intent intentp = new Intent(EditMeal.this,recycleView.class);
+
+
+         saveImage(imageUri,meal,intentp);// Saving image to firebase
+
 
      }
-     private void saveImage(String imageUri){
+     private void saveImage(String imageUri,Meal meal,Intent intent){
          StorageReference fileReference = FirebaseStorage.getInstance().getReference(imageUri);
+         saveButton.setEnabled(false);
+         deleteButton.setEnabled(false);
+         loading.setVisibility(View.VISIBLE);
+         MealDAO mealDAO = MealDBinstance.getDataBase1(getApplicationContext()).mealDAO();
+
 
          fileReference.putFile(mealImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
              @Override
              public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                  Toast.makeText(EditMeal.this, "Sucessfully uploaded", Toast.LENGTH_SHORT).show();
+                 try {
+                     imageStorage.deleteImage(imageUri);//deleting the previous image
+                     imageStorage.addImage(imageUri,uriToBitmap(mealImageUri));
+                     mealDAO.insert(meal);
+                     startActivity(intent);
+                 } catch (IOException e) {
+                     throw new RuntimeException(e);
+                 }
+
              }
          }).addOnFailureListener(new OnFailureListener() {
              @Override
              public void onFailure(@NonNull Exception e) {
-                 Toast.makeText(EditMeal.this, "Upload failed", Toast.LENGTH_SHORT).show();
+                 Toast.makeText(EditMeal.this, "Upload failed,try again", Toast.LENGTH_SHORT).show();
+                 loading.setVisibility(View.GONE);
+                 startActivity(intent);
              }
          });
 
      }
- }
+    private Bitmap uriToBitmap(Uri uri)throws IOException{
+        ContentResolver contentResolver = getContentResolver();
+        InputStream inputStream = contentResolver.openInputStream(uri);
+        return BitmapFactory.decodeStream(inputStream);
+    }
+
+    private void deleteMeal(){
+        MealDAO mealDAO = MealDBinstance.getDataBase1(getApplicationContext()).mealDAO();
+        Meal meal = mealDAO.getTheMeal(mealDateS,mealNameS);
+        mealDAO.delete(meal);
+        Intent intent = new Intent(EditMeal.this,recycleView.class);
+        startActivity(intent);
+    }
+
+}

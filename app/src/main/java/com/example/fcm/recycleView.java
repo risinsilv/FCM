@@ -66,7 +66,13 @@ public class recycleView extends AppCompatActivity {
             dailyIntake.setDate(date);
             recycleListDate.add(dailyIntake);
         }
+        //getting the dates from dailey intake
+        List<DailyIntake> datelist = dailyIntakeDAO.getAlldates();
+        for (DailyIntake dailyIntake : datelist) {
+            // Access the fields of DailyIntake object
+            String date = dailyIntake.getDate(); // Assuming there's a getDate() method in DailyIntake
 
+        }
 
         // Find the position of the current date
         String currentDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(calendar.getTime());
@@ -140,6 +146,9 @@ public class recycleView extends AppCompatActivity {
         addButton.setOnClickListener(v -> {
             if (selectedDateData != null) {
                 // Launch MealDetailActivity and pass the selected date data
+                DailyIntake date = new DailyIntake();
+                date.setDate(selectedDateData.getDate());
+                dailyIntakeDAO.insert(selectedDateData);
                 Intent intent = new Intent(recycleView.this, MealDetailActivity.class);
                 intent.putExtra("selectedDate", selectedDateData.getDate()); // Passing the selected date
                 startActivity(intent);

@@ -235,6 +235,7 @@ public class MealDetailActivity extends AppCompatActivity {
                 Toast.makeText(MealDetailActivity.this, "Image upload failed", Toast.LENGTH_SHORT).show();
                 buttonSaveMeal.setEnabled(true);
                 loading.setVisibility(View.GONE);
+                fetchAndSetNutritionData(meal.getMealName(), meal.getPortionSize(), meal, intent);
             }
         });
     }

@@ -33,6 +33,11 @@ public class ImageStorage {
     public void addImage(String key, Bitmap bitmap) {
         imageMap.put(key, bitmap);
     }
+    public void deleteImage(String key) {
+        if (imageMap.containsKey(key)) {
+            imageMap.remove(key);
+        }
+    }
 
     public Bitmap getImage(String key) {
         return imageMap.get(key);

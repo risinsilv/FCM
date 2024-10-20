@@ -262,6 +262,7 @@ public class MealDetailActivity extends AppCompatActivity {
                 } else {
                     Log.e("ERROR", "API Response Failed or No Items: " + response.code());  // Log error code and details
                     Toast.makeText(MealDetailActivity.this, "Failed to get nutrition info", Toast.LENGTH_SHORT).show();
+                    showManualInputDialog(meal, intent);
 
                 }
             }
@@ -269,11 +270,49 @@ public class MealDetailActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<NutritionResponse> call, Throwable t) {
                 Toast.makeText(MealDetailActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                mealDAO.insert(meal);
-                startActivity(intent);
+                showManualInputDialog(meal, intent);
             }
         });
 
+    }
+
+    private void showManualInputDialog(Meal meal, Intent intent) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Enter Nutrition Data Manually");
+
+        // Create a custom layout for the dialog with input fields for calories, carbs, fats, and proteins
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_manual_nutrition_input, null);
+        builder.setView(dialogView);
+
+        // Find the EditText fields in the custom layout
+        EditText inputCalories = dialogView.findViewById(R.id.inputCalories);
+        EditText inputCarbs = dialogView.findViewById(R.id.inputCarbohydrates);
+        EditText inputFats = dialogView.findViewById(R.id.inputFats);
+        EditText inputProteins = dialogView.findViewById(R.id.inputProteins);
+
+        // Set the buttons for the dialog
+        builder.setPositiveButton("Save", (dialog, which) -> {
+            // Retrieve values entered by the user
+            double calories = Double.parseDouble(inputCalories.getText().toString());
+            double carbohydrates = Double.parseDouble(inputCarbs.getText().toString());
+            double fats = Double.parseDouble(inputFats.getText().toString());
+            double proteins = Double.parseDouble(inputProteins.getText().toString());
+
+            // Set the values in the Meal object
+            meal.setCalories(calories);
+            meal.setCarbohydrates(carbohydrates);
+            meal.setFats(fats);
+            meal.setProteins(proteins);
+
+            // Save the meal to the database and start the next activity
+            mealDAO.insert(meal);
+            startActivity(intent);
+        });
+
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+
+        // Show the dialog
+        builder.create().show();
     }
 
 }

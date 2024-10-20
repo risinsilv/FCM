@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/inputCalories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Calories"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/inputCarbohydrates"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Carbohydrates (g)"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/inputFats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Fats (g)"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/inputProteins"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Proteins (g)"
+        android:inputType="numberDecimal" />
+
+</LinearLayout>

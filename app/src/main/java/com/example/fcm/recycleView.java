@@ -57,21 +57,24 @@ public class recycleView extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
         Calendar calendar = Calendar.getInstance();
-        List<String> dates = getThreeMonthsDates();
+        List<String> generatedDates = getThreeMonthsDates();
+
+        // Fetch the saved dates from the database as a List<String>
+        List<DailyIntake> savedDailyIntakes = dailyIntakeDAO.getAlldates();
+        List<String> savedDates = new ArrayList<>();
+        for (DailyIntake dailyIntake : savedDailyIntakes) {
+            savedDates.add(dailyIntake.getDate());
+        }
+
+        // Merge the generated dates and saved dates, and remove duplicates
+        List<String> allDates = mergeAndRemoveDuplicates(generatedDates, savedDates);
 
         // Populate the recycleListDate with DailyIntake objects
         recycleListDate = new ArrayList<>();
-        for (String date : dates) {
+        for (String date : allDates) {
             DailyIntake dailyIntake = new DailyIntake();
             dailyIntake.setDate(date);
             recycleListDate.add(dailyIntake);
-        }
-        //getting the dates from dailey intake
-        List<DailyIntake> datelist = dailyIntakeDAO.getAlldates();
-        for (DailyIntake dailyIntake : datelist) {
-            // Access the fields of DailyIntake object
-            String date = dailyIntake.getDate(); // Assuming there's a getDate() method in DailyIntake
-
         }
 
         // Find the position of the current date
@@ -113,13 +116,18 @@ public class recycleView extends AppCompatActivity {
                 // Format the date (e.g., 10-Sep-2024)
                 String formattedDate = String.format("%02d-%s-%d", dayOfMonth, getMonthShortName(month + 1), year);
 
-                // Create a new DailyIntake object for the new date
-                DailyIntake newDate = new DailyIntake();
-                newDate.setDate(formattedDate);
+                if (isDateAlreadyPresent(formattedDate)) {
+                    Toast.makeText(recycleView.this, "Date already exists!", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Create a new DailyIntake object for the selected date
+                    DailyIntake newDate = new DailyIntake();
+                    newDate.setDate(formattedDate);
 
-                // Insert the new date into the list at the correct position
-                insertNewDate(newDate);
+                    // Insert new date into the list
+                    insertNewDate(newDate);
+                }
             }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+
 
             datePickerDialog.show();
         });
@@ -167,6 +175,14 @@ public class recycleView extends AppCompatActivity {
         recycleViewAdapter.notifyDataSetChanged();
     }
 
+    private List<String> mergeAndRemoveDuplicates(List<String> list1, List<String> list2) {
+        TreeSet<String> uniqueDates = new TreeSet<>((d1, d2) -> compareDates(d1, d2));  // TreeSet automatically sorts and removes duplicates
+        uniqueDates.addAll(list1);
+        uniqueDates.addAll(list2);
+
+        return new ArrayList<>(uniqueDates);
+    }
+
     private List<String> getThreeMonthsDates() {
         List<String> allDates = new ArrayList<>();
 
@@ -186,12 +202,13 @@ public class recycleView extends AppCompatActivity {
 
         return allDates;
     }
-    private List<DailyIntake> removeDuplicatesAndSort(List<DailyIntake> dateList) {
-        // Use a TreeSet to remove duplicates and sort dates
-        TreeSet<DailyIntake> sortedSet = new TreeSet<>((d1, d2) -> compareDates(d1.getDate(), d2.getDate()));
-        sortedSet.addAll(dateList);
-
-        return new ArrayList<>(sortedSet);
+    private boolean isDateAlreadyPresent(String date) {
+        for (DailyIntake intake : recycleListDate) {
+            if (intake.getDate().equals(date)) {
+                return true; // Date is already in the list
+            }
+        }
+        return false;
     }
 
     private String getMonthShortName(int month) {

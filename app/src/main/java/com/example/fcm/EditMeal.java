@@ -42,8 +42,8 @@ import java.io.IOException;
      private Bitmap mealImageBitmap;
      private Uri mealImageUri;
      EditText mealName,mealWeight,calories,fats,protein,carbs;
+     String mealNameS,mealDateS;
      Spinner spinner;
-     MealDAO mealDAO = MealDBinstance.getDataBase1(getApplicationContext()).mealDAO();
      ImageStorage imageStorage = ImageStorage.getInstance();
      @Override
      protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +66,23 @@ import java.io.IOException;
          ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                  R.array.meal_types, android.R.layout.simple_spinner_item);
          adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+         Intent intent = getIntent();
+         mealNameS = intent.getStringExtra("mealName");
+         mealDateS = intent.getStringExtra("mealDate");
+         MealDAO mealDAO = MealDBinstance.getDataBase1(getApplicationContext()).mealDAO();
+         Meal meal = mealDAO.getTheMeal(mealDateS, mealNameS);
          spinner.setAdapter(adapter);
-         mealName.setText(getIntent().getStringExtra("mealName"));
-         mealWeight.setText((int) getIntent().getDoubleExtra("mealWeight", 0));
-         calories.setText((int) getIntent().getDoubleExtra("calories", 0));
-         fats.setText((int) getIntent().getDoubleExtra("fats", 0));
-         protein.setText((int) getIntent().getDoubleExtra("protien", 0));
-         carbs.setText((int) getIntent().getDoubleExtra("carbs", 0));
+
+         mealImageBitmap = imageStorage.getImage(meal.getImage());
+         mealImageUri = saveImageToTemp( mealImageBitmap);
+
+         mealName.setText(mealNameS);
+         imageButton.setImageBitmap(mealImageBitmap);
+         mealWeight.setText(String.valueOf(meal.getPortionSize()));
+         calories.setText(String.valueOf(meal.getCalories()));
+         fats.setText(String.valueOf(meal.getFats()));
+         protein.setText(String.valueOf(meal.getProteins()));
+         carbs.setText(String.valueOf(meal.getCarbohydrates()));
 
 
          // Camera launcher to capture image
@@ -154,15 +164,17 @@ import java.io.IOException;
          double mFats =  Double.parseDouble(fats.getText().toString());
          double mCarbs = Double.parseDouble(carbs.getText().toString());
          String mealType = spinner.getSelectedItem().toString();
-         Meal mealT = mealDAO.getTheMeal(getIntent().getStringExtra("mealDate"), getIntent().getStringExtra("mealName"));
+         MealDAO mealDAO = MealDBinstance.getDataBase1(getApplicationContext()).mealDAO();
+         Meal mealT = mealDAO.getTheMeal(mealDateS,mealNameS);
 
          String imageUri = mealT.getImage();
+         mealDAO.delete(mealT);//deleting the current meal
 
-         String date = getIntent().getStringExtra("selectedDate");
+
          Meal meal = new Meal();
          meal.setImage(imageUri);
          saveImage(imageUri);// Saving image to firebase
-         meal.setDate(date);
+         meal.setDate(mealDateS);
          meal.setMealName(mName);
          meal.setMealType(mealType);
          meal.setPortionSize(mWeight);
@@ -170,7 +182,7 @@ import java.io.IOException;
          meal.setCarbohydrates( mCarbs);
          meal.setFats(mFats );
          meal.setProteins(mProteins);
-         mealDAO.update(meal);
+         mealDAO.insert(meal);
 
      }
      private void saveImage(String imageUri){

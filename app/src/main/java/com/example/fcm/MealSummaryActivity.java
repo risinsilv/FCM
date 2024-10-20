@@ -79,11 +79,8 @@ public class MealSummaryActivity extends AppCompatActivity {
         // Handle the Edit button
         editButton.setOnClickListener(v -> {
             Intent editIntent = new Intent(MealSummaryActivity.this, EditMeal.class);
-
             editIntent.putExtra("mealName", mealName);
             editIntent.putExtra("mealDate", mealDate);
-
-
             startActivity(editIntent);
         });
 

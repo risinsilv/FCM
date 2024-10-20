@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +55,8 @@ public class MealDetailActivity extends AppCompatActivity {
     private Spinner spinnerMealType;
     private ActivityResultLauncher<Intent> cameraLauncher;
     private ActivityResultLauncher<Intent> galleryLauncher;
+    private ProgressBar loading;
+    Button buttonSaveMeal;
     MealDAO mealDAO;
 
     @Override
@@ -65,18 +68,15 @@ public class MealDetailActivity extends AppCompatActivity {
         editTextMealName = findViewById(R.id.editTextMealName);
         weightEditText = findViewById(R.id.weightEditText);
         spinnerMealType = findViewById(R.id.spinnerMealType);
-        Button buttonSaveMeal = findViewById(R.id.buttonSaveMeal);
+        buttonSaveMeal = findViewById(R.id.buttonSaveMeal);
         mealImageButton = findViewById(R.id.mealImageButton);
         mealDAO = MealDBinstance.getDataBase1(getApplicationContext()).mealDAO();
+        loading = findViewById(R.id.progressBar);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.meal_types, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerMealType.setAdapter(adapter);
-
-
-        buttonSaveMeal.setOnClickListener(v -> saveMeal());
-
 
 
         // Get meal name from Intent
@@ -110,6 +110,7 @@ public class MealDetailActivity extends AppCompatActivity {
         );
 
         mealImageButton.setOnClickListener(v -> showImageSourceDialog());
+        buttonSaveMeal.setOnClickListener(v -> saveMeal());
 
 
     }
@@ -208,12 +209,16 @@ public class MealDetailActivity extends AppCompatActivity {
         //Toast.makeText(this, "Meal saved: " + mealName + " (" + mealWeight + "g) - " + mealType, Toast.LENGTH_SHORT).show();
     }
      private void saveImage(String imageUri){
+         buttonSaveMeal.setEnabled(false);
+         loading.setVisibility(View.VISIBLE);
          StorageReference fileReference = FirebaseStorage.getInstance().getReference(imageUri);
+
 
          fileReference.putFile(mealImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
              @Override
              public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                  Toast.makeText(MealDetailActivity.this, "Sucessfully uploaded", Toast.LENGTH_SHORT).show();
+                 buttonSaveMeal.setEnabled(true);
              }
          }).addOnFailureListener(new OnFailureListener() {
              @Override

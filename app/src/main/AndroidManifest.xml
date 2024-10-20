@@ -28,7 +28,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".MealDetailActivity" />
-        <activity android:name=".NutritionActivity" />
         <activity android:name=".MealSummaryActivity" />
     </application>
 

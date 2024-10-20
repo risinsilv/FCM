@@ -169,6 +169,7 @@ public class recycleView extends AppCompatActivity {
         dailyGoal.setOnClickListener(v -> {
             if (selectedDateData != null) {
                 double goalIntake = 0;
+
                 // Launch MealDetailActivity and pass the selected date data
                 Intent intent = new Intent(recycleView.this, MealDetailActivity.class);
                 intent.putExtra("selectedDate", selectedDateData.getDate());

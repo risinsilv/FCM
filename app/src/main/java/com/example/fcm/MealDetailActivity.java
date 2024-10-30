@@ -6,6 +6,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -61,11 +65,24 @@ public class MealDetailActivity extends AppCompatActivity {
     MealDAO mealDAO;
     ImageStorage imageStorage = ImageStorage.getInstance();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_detail);
         EdgeToEdge.enable(this);
+
+        if (!isConnected()) {
+            new AlertDialog.Builder(MealDetailActivity.this)
+                    .setTitle("No Internet Connection")
+                    .setMessage("The app requires an internet connection to function.")
+                    .setPositiveButton("Exit", (dialog, which) -> {
+                        finish(); // Close the app
+                    })
+                    .setCancelable(false)
+                    .show();
+
+        }
 
         editTextMealName = findViewById(R.id.editTextMealName);
         weightEditText = findViewById(R.id.weightEditText);
@@ -330,6 +347,26 @@ public class MealDetailActivity extends AppCompatActivity {
 
         // Show the dialog
         builder.create().show();
+    }
+
+    private boolean isConnected() {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                Network network = connectivityManager.getActiveNetwork();
+                if (network == null) return false;
+                NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(network);
+                return capabilities != null &&
+                        (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
+                                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET));
+            } else {
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+                return networkInfo != null && networkInfo.isConnected();
+            }
+        }
+        return false;
     }
 
 }

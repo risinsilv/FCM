@@ -6,8 +6,12 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "Meal" ,primaryKeys = {"date","meal_name"})
+@Entity(tableName = "Meal" )
 public class Meal {
+
+    @PrimaryKey(autoGenerate = true)
+    private long id;
+
     @NonNull
     @ColumnInfo(name = "date")
     private String date;
@@ -36,6 +40,13 @@ public class Meal {
     @ColumnInfo(name = "image")
     private String image;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
     @NonNull
     public String getDate() {
         return date;

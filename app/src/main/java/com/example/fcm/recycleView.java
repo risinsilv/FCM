@@ -62,6 +62,7 @@ public class recycleView extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
+
         Calendar calendar = Calendar.getInstance();
         List<String> generatedDates = getThreeMonthsDates();
 
@@ -93,6 +94,8 @@ public class recycleView extends AppCompatActivity {
             public void onDateClick(DailyIntake dateData) {
                 updateMainRecyclerViewData(dateData);
                 selectedDateData = dateData; // Set selected date data
+                saveSelectedDate(dateData.getDate());
+                dateAdapter.setSelectedPosition(recycleListDate.indexOf(dateData));
                 Toast.makeText(recycleView.this, dateData.getDate(), Toast.LENGTH_SHORT).show();
             }
         }, currentPosition);  // Pass the current date position to the
@@ -191,7 +194,54 @@ public class recycleView extends AppCompatActivity {
             }
         });
 
+
+
+
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        String savedDate = getSavedSelectedDate();
+        if (savedDate != null) {
+            selectedDateData = new DailyIntake();
+            selectedDateData.setDate(savedDate);
+
+            int savedDatePosition = IntStream.range(0, recycleListDate.size())
+                    .filter(i -> recycleListDate.get(i).getDate().equals(savedDate))
+                    .findFirst().orElse(-1);
+
+            if (savedDatePosition != -1) {
+                dateAdapter.setSelectedPosition(savedDatePosition);
+                dateAdapter.notifyDataSetChanged();
+                recyclerViewDate.scrollToPosition(savedDatePosition);
+                updateMainRecyclerViewData(selectedDateData);
+            }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        clearSavedSelectedDate();
+    }
+    private void saveSelectedDate(String date) {
+        SharedPreferences prefs = getSharedPreferences("SelectedDatePrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("selectedDate", date);
+        editor.apply();
+    }
+
+
+    private void clearSavedSelectedDate() {
+        SharedPreferences prefs = getSharedPreferences("SelectedDatePrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.remove("selectedDate");
+        editor.apply();
+    }
+
+
+
 
     private void updateMainRecyclerViewData(DailyIntake dateData) {
         List<Meal> meal = mealDAO.getMealsByDate(dateData.getDate());
@@ -200,6 +250,12 @@ public class recycleView extends AppCompatActivity {
         recycleList.addAll(new ArrayList<>(meal));
         recycleViewAdapter.notifyDataSetChanged();
     }
+
+    private String getSavedSelectedDate() {
+        SharedPreferences prefs = getSharedPreferences("SelectedDatePrefs", MODE_PRIVATE);
+        return prefs.getString("selectedDate", null);
+    }
+
 
     private List<String> mergeAndRemoveDuplicates(List<String> list1, List<String> list2) {
         TreeSet<String> uniqueDates = new TreeSet<>((d1, d2) -> compareDates(d1, d2));  // TreeSet automatically sorts and removes duplicates

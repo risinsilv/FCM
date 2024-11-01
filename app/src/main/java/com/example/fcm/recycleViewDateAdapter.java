@@ -95,6 +95,11 @@ public class recycleViewDateAdapter extends RecyclerView.Adapter<recycleViewDate
         }
     }
     public void setSelectedPosition(int position) {
+        int previousPosition = selectedPosition;
         this.selectedPosition = position;
+        if (previousPosition != -1) {
+            notifyItemChanged(previousPosition);
+        }
+        notifyItemChanged(selectedPosition);
     }
 }

@@ -54,7 +54,7 @@ public class Nutrition extends AppCompatActivity {
         int progress = (int) ((totalCalories * 100)/goalIntake);
 
         calorieProgressBar.setProgress(progress);
-        caloriesTextView.setText(String.valueOf(totalCalories));
+        caloriesTextView.setText(String.valueOf(formattedTotalCalories));
         caloriesGoalTextView.setText(String.valueOf(goalIntake));
 
 

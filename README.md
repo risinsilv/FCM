@@ -68,7 +68,7 @@ Before you begin, ensure you have the following installed:
 3. **Android SDK** with API level 34
 4. **Gradle** 7.0 or higher (usually bundled with Android Studio)
 5. **Firebase Account** (for Firebase services)
-6. **CalorieNinjas API Key** (free tier available at [calorieninjas.com](https://calorieninjas.com))
+6. **CalorieNinjas API Key** (free tier available - [Get your API key here](https://api-ninjas.com/api/nutrition))
 
 ## 🚀 Installation
 
@@ -99,9 +99,11 @@ cd FCM
 
 ### 3. API Key Configuration
 
-1. Sign up for a free API key at [CalorieNinjas](https://calorieninjas.com)
+⚠️ **Important Security Note**: The repository currently contains a hardcoded API key. You should replace it with your own key for security and usage tracking.
+
+1. Sign up for a free API key at [API Ninjas - Nutrition API](https://api-ninjas.com/api/nutrition)
 2. Open `app/src/main/java/com/example/fcm/ApiClient.java`
-3. Replace the placeholder API key with your actual key:
+3. Replace the existing API key with your actual key:
 
 ```java
 .header("X-Api-Key", "YOUR_API_KEY_HERE")
@@ -237,10 +239,10 @@ Tracks daily calorie goals and progress.
 
 ### CalorieNinjas API
 
-The app integrates with CalorieNinjas API to fetch nutritional information:
+The app integrates with CalorieNinjas API (via API Ninjas) to fetch nutritional information:
 
 - **Base URL**: `https://api.calorieninjas.com/`
-- **Endpoint**: `v1/nutrition`
+- **Full Endpoint**: `GET https://api.calorieninjas.com/v1/nutrition`
 - **Method**: GET
 - **Authentication**: API Key in header (`X-Api-Key`)
 
@@ -301,7 +303,7 @@ The APK will be generated at: `app/build/outputs/apk/release/app-release.apk`
 
 ## 🔒 Security Notes
 
-⚠️ **Important**: The repository currently contains a hardcoded API key in `ApiClient.java`. For production:
+⚠️ **CRITICAL SECURITY WARNING**: The repository currently contains a hardcoded API key in `ApiClient.java`. This is a security risk! For production:
 
 1. **Remove hardcoded API keys** from source code
 2. **Use BuildConfig** or environment variables

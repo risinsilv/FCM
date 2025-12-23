@@ -241,8 +241,9 @@ Tracks daily calorie goals and progress.
 
 The app integrates with CalorieNinjas API (via API Ninjas) to fetch nutritional information:
 
-- **Base URL**: `https://api.calorieninjas.com/`
-- **Full Endpoint**: `GET https://api.calorieninjas.com/v1/nutrition`
+- **Base URL**: `https://api.calorieninjas.com/v1/`
+- **Endpoint**: `nutrition`
+- **Full URL**: `GET https://api.calorieninjas.com/v1/nutrition`
 - **Method**: GET
 - **Authentication**: API Key in header (`X-Api-Key`)
 
@@ -347,7 +348,7 @@ This project is available for educational and personal use. Please check with th
 
 ## 🙏 Acknowledgments
 
-- [CalorieNinjas](https://calorieninjas.com) for providing the nutrition API
+- [API Ninjas - Nutrition API](https://api-ninjas.com/api/nutrition) for providing the nutrition data service
 - [Firebase](https://firebase.google.com) for backend services
 - Android community for excellent libraries and tools
 
